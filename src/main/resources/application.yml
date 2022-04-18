@@ -1,3 +1,4 @@
+
 spring:
   datasource:
     url: jdbc:h2:tcp://localhost/~/myparking
@@ -13,6 +14,22 @@ spring:
   #     show_sql: true
         format_sql: true
 
+  data:
+    rest:
+      base-path: /api
+      default-page-size: 6
+      max-page-size: 6
+
 logging.level:
   org.hibernate.SQL: debug
 # org.hibernate.type: trace
+
+# Spring Doc Config
+springdoc:
+  api-docs:
+    path: /api-docs #doc default path : /v3/api-docs
+    groups.enabled: true
+  swagger-ui:
+    path: /swagger-ui.html #swagger default path : /swagger-ui.html
+    display-request-duration: true
+    groups-order: DESC
