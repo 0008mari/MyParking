@@ -1,7 +1,6 @@
 package project.myparking.domain;
 
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -18,30 +17,38 @@ public class Review extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column//(name = "review_id")
     private Long id;
 
-    @Schema(description = "리뷰 제목")
+    @Column @Schema(description = "리뷰 제목")
     private String title;
-    @Schema(description = "리뷰 본문 내용")
-    private String content;
-    @Schema(description = "리뷰 작성자")
-    private String author;  // User uesrid 로 바꾸고 only logged in user 만 리뷰작성가능으로 수정
+
+//    @Column @Schema(description = "리뷰 본문 내용")
+//    private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn//(name = "parking_id")
-    @Schema(description = "리뷰 대상 주차장")
-    private Parking parking;
+    @JoinColumn(name = "USER_ID")
+    @Schema(description = "리뷰 주차장")
+    private ParkingInfo parking;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_ID")
+    @Schema(description = "리뷰 작성자")
+    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "KEYWORD_ID")
+    @Schema(description = "리뷰 내용을 구성하는 키워드")
+    private Keyword keyword;
 
     @Builder
-    public Review(String title, String content, String author) {
+    public Review(String title, User user, Keyword keyword) {
         this.title = title;
-        this.content = content;
-        this.author = author;
+        this.user = user;
+        this.keyword = keyword;
     }
 
-    public void update(String title, String content) {
+    public void update(String title, Keyword keyword) {
         this.title = title;
-        this.content = content;
+        // this.keyword = keyword;
     }
 }
