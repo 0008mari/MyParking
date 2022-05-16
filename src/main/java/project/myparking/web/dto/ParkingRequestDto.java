@@ -6,8 +6,8 @@ import project.myparking.domain.Parking;
 @Getter
 public class ParkingRequestDto {
 
-    private String name;
+    private String addr;
     public ParkingRequestDto(Parking entity) {
-        this.name = entity.getName();
+        this.addr = entity.getADDR();
     }
 }

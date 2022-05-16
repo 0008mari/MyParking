@@ -20,8 +20,8 @@ public class ParkingService {
 
     private final ParkingRepository parkingRepository;
 
-    public List<ParkingResponseDto> findByNameLike(String name) {
-        List<Parking> list = parkingRepository.findByNameLike(name);
+    public List<ParkingInfoResponseDto> findByAddrLike(String addr) {
+        List<Parking> list = parkingRepository.findByAddrLike(addr);
         if(list.isEmpty()) new IllegalArgumentException("해당 이름의 주차장은 없습니다. name=" + name);
 
         return list.stream()

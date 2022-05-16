@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface ParkingRepository extends JpaRepository<Parking, Long> {
 
-    @Query("select p from Parking p where p.name like '%?1%'")
-    List<Parking> findByNameLike(String name);
+    @Query("select p from Parking p where p.ADDR like '%addr%'")
+    List<Parking> findByAddr(String addr);
+
 }
