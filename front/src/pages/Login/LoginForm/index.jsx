@@ -1,7 +1,7 @@
 import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 
-import "./loginFormStyle.css";
+import "./style.css";
 
 function LoginForm() {
   const onFinish = (values) => {
