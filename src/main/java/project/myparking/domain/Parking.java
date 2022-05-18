@@ -7,11 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
-@AllArgsConstructor
+@Data @NoArgsConstructor
 public class Parking {
-    @Id @Column(name = "PID")
+    @Id
+    @Column//(name = "PID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String PARKING_NAME;        // "마들스타디움(근린공원)(구)"
@@ -24,30 +23,47 @@ public class Parking {
     private String PAY_NM;              // "유료"
     private String WEEKDAY_BEGIN_TIME;  // "0000"
     private String WEEKDAY_END_TIME;    // "2400"
+    @Transient
     private String SYNC_TIME;           // "2019-06-10 09:36:13"
     private double RATES;               // 150.0
     private double TIME_RATE;           // 5.0
     private double ADD_RATES;           // 150.0
     private double ADD_TIME_RATE;       // 5.0
+    @Transient
     private double LAT;                 // 37.64391748
+    @Transient
     private double LNG;                 // 127.05856743
 
-    @OneToMany(mappedBy = "PID")
+
+    @OneToMany//(mappedBy = "RID")
     List<Review> reviews = new ArrayList<>();
 
 
-//    @Builder
-//    public Parking(String name, String address, String phone, int fee) {
-//        this.name = name;
-//        this.address = address;
-//        this.phone = phone;
-//        this.fee = fee;
-//    }
-//
-//    public void update(String name, String address, String phone, int fee) {
-//        this.name = name;
-//        this.address = address;
-//        this.phone = phone;
-//        this.fee = fee;
-//    }
+    @Builder
+    public Parking(Long id, String PARKING_NAME, String ADDR,
+                   String PARKING_CODE, String PARKING_TYPE_NM,
+                   String OPERATION_RULE_NM, String TEL, double CAPACITY,
+                   String PAY_NM, String WEEKDAY_BEGIN_TIME, String WEEKDAY_END_TIME,
+                   String SYNC_TIME, double RATES, double TIME_RATE, double ADD_RATES,
+                   double ADD_TIME_RATE, double LAT, double LNG) {
+        this.id = id;
+        this.PARKING_NAME = PARKING_NAME;
+        this.ADDR = ADDR;
+        this.PARKING_CODE = PARKING_CODE;
+        this.PARKING_TYPE_NM = PARKING_TYPE_NM;
+        this.OPERATION_RULE_NM = OPERATION_RULE_NM;
+        this.TEL = TEL;
+        this.CAPACITY = CAPACITY;
+        this.PAY_NM = PAY_NM;
+        this.WEEKDAY_BEGIN_TIME = WEEKDAY_BEGIN_TIME;
+        this.WEEKDAY_END_TIME = WEEKDAY_END_TIME;
+        this.SYNC_TIME = SYNC_TIME;
+        this.RATES = RATES;
+        this.TIME_RATE = TIME_RATE;
+        this.ADD_RATES = ADD_RATES;
+        this.ADD_TIME_RATE = ADD_TIME_RATE;
+        this.LAT = LAT;
+        this.LNG = LNG;
+    }
+
 }

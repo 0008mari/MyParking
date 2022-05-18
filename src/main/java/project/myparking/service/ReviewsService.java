@@ -3,8 +3,6 @@ package project.myparking.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import project.myparking.domain.Parking;
-import project.myparking.repository.ParkingRepository;
 import project.myparking.domain.Review;
 import project.myparking.repository.ReviewRepository;
 import project.myparking.web.dto.*;
@@ -18,16 +16,16 @@ public class ReviewsService {
     private final ReviewRepository reviewsRepository;
 
     @Transactional
-    public Long save(ReviewsSaveRequestDto requestDto) {
+    public Long save(ReviewSaveRequest requestDto) {
         return reviewsRepository.save(requestDto.toEntity()).getId();
     }
 
     @Transactional
-    public Long update(Long id, ReviewsUpdateRequestDto requestDto) {
+    public Long update(Long id, ReviewUpdateRequest request) {
         Review reviews = reviewsRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
 
-        reviews.update(requestDto.getTitle(), requestDto.getContent());
+        reviews.update(request.getStarScore());
 
         return id;
     }
@@ -40,16 +38,16 @@ public class ReviewsService {
         reviewsRepository.delete(reviews);
     }
 
-    public ReviewsResponseDto findById(Long id) {
+    public ReviewResponse findById(Long id) {
         Review entity = reviewsRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
 
-        return new ReviewsResponseDto(entity);
+        return new ReviewResponse(entity);
     }
 
-    public List<ReviewsListResponseDto> findAllAsc() {
+    public List<ReviewResponse> findAllAsc() {
         return reviewsRepository.findAllAsc().stream()
-                .map(ReviewsListResponseDto::new)
+                .map(ReviewResponse::new)
                 .collect(Collectors.toList());
     }
 }

@@ -2,17 +2,18 @@ package project.myparking.domain;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Data
+@NoArgsConstructor
 public class User extends BaseTimeEntity {
 
-    @Id @Column(name = "UID")
+    @Id @Column//(name = "UID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -28,6 +29,7 @@ public class User extends BaseTimeEntity {
     List<Review> reviewList = new ArrayList<>();
 
     private Role role;
+
 }
 
 
