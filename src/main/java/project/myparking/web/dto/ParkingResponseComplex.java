@@ -1,8 +1,17 @@
 package project.myparking.web.dto;
 
+import lombok.Data;
 import project.myparking.domain.Parking;
 
-//@Json
+import javax.persistence.NamedAttributeNode;
+
+/**
+ * 엔티티를 DTO로 변환하는 일반적인 방법 
+ * 쿼리가 총 1+N+N 번 실행된다 (N+1 problem) -> 2학기에 fetch join으로 최적화
+
+ */
+
+@Data
 public class ParkingResponseComplex {
 
     private String PARKING_NAME;        // "마들스타디움(근린공원)(구)"
