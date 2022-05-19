@@ -18,7 +18,7 @@ import java.util.List;
 
 @Controller       // MVC Workflow : return adequate view page (used thymeleaf for a while)
 //@RestController     // REST API Workflow
-@RequestMapping(value="/api")
+@RequestMapping(value="/api/v1")
 public class HomeController {
 
     @Autowired
@@ -29,7 +29,7 @@ public class HomeController {
         return "index";
     }
 
-    @GetMapping("loadDB")
+    @GetMapping("/insertDB")
     @ResponseBody
     public String load_save(){
         String result = "";

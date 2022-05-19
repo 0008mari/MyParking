@@ -35,15 +35,10 @@ public class ParkingApiController {
 
     @GetMapping("/{addr}")
     @Operation(summary = "입력한 주소의 주차장 목록 출력")
-    public List<ParkingResponseComplex> findParkingByAddr_P(@PathVariable String addr) {
+    public List<ParkingResponseComplex> findParkingByAddr(@PathVariable String addr) {
         return parkingService.findByAddr(addr);
     }
 
-    @PostMapping("{addr}")
-    @Operation(summary = "입력한 주소의 주차장 목록 출력")
-    public List<ParkingResponseComplex> findParkingByAddr_R(@RequestParam String addr) {
-        return parkingService.findByAddr(addr);
-    }
 
 
 }

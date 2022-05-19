@@ -2,6 +2,7 @@ package project.myparking.web.dto;
 
 import project.myparking.domain.Parking;
 
+//@Json
 public class ParkingResponseComplex {
 
     private String PARKING_NAME;        // "마들스타디움(근린공원)(구)"
