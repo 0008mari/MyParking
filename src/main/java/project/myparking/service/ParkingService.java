@@ -14,6 +14,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class ParkingService {
+    /**
+     * xxRepo layer 에서는 Entity 를 서로 넘겨주고 반환하고
+     *
+     * xxService layer 에서는 Entity 직접 사용 X
+     * => SW의 다양한 서비스에 따라 필요한 DTO 가 달라진다. 따라서 반드시 DTO 만들어서 사용
+     */
 
     private final ParkingRepository parkingRepository;
 
@@ -30,7 +36,10 @@ public class ParkingService {
 
     @Transactional(readOnly = true)
     public List<ParkingResponseComplex> findAll() {
-        return parkingRepository.findAll().stream()
+        List<Parking> list = parkingRepository.findAll();
+        if(list.isEmpty()) new IllegalArgumentException("주차장 DB 먼저 생성해주세요!!\n");
+        // parkingRepository 결과로 넘어온 Parking의 stream을 map을 통해 List<ParkingResponseComplex>로 반환
+        return list.stream()
                 .map(ParkingResponseComplex::new)
                 .collect(Collectors.toList());
     }

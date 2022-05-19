@@ -36,7 +36,7 @@ public class HomeController {
         String key = "7559687550736b79373173754a5357";
         try {
             URL url = new URL("http://openapi.seoul.go.kr:8088/" + key +
-                    "/json/GetParkInfo/1/100/");
+                    "/json/GetParkInfo/1/40/");
             BufferedReader bf;
             bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
             result = bf.readLine();
