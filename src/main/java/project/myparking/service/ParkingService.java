@@ -14,13 +14,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class ParkingService {
-    /**
-     * xxRepo layer 에서는 Entity 를 서로 넘겨주고 반환하고
-     *
-     * xxService layer 에서는 Entity 직접 사용 X
-     * => SW의 다양한 서비스에 따라 필요한 DTO 가 달라진다. 따라서 반드시 DTO 만들어서 사용
-     */
-
     private final ParkingRepository parkingRepository;
 
     @Transactional(readOnly = true)
