@@ -8,13 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import project.myparking.domain.Parking;
 import project.myparking.repository.ParkingRepository;
-import project.myparking.web.dto.ParkingResponseComplex;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller       // MVC Workflow : return adequate view page (used thymeleaf for a while)
 //@RestController     // REST API Workflow
