@@ -9,15 +9,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data
+@Getter @Setter
 @NoArgsConstructor
 public class User extends BaseTimeEntity {
 
-    @Id @Column//(name = "UID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @Column(name = "user_id")
     private Long id;
 
-    @Column(nullable = false)
+    // @Column(nullable = false) - 앞단에서 처리?
     private String name;
     private String alias;
 
@@ -26,9 +25,9 @@ public class User extends BaseTimeEntity {
     private String picture;
 
     @OneToMany(mappedBy = "user")
-    List<Review> reviewList = new ArrayList<>();
+    private List<Review> reviews = new ArrayList<>();
 
-    private Role role;
+    // private Role role;
 
 }
 
