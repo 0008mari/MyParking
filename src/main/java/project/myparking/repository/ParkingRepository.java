@@ -11,4 +11,7 @@ public interface ParkingRepository extends JpaRepository<Parking, Long> {
 
     @Query("select p from Parking p where p.ADDR like '%:addr%'")
     List<Parking> findByAddr(@Param("addr") String addr);
+
+    @Query("select p from Parking p where p.id =:parkingId")
+    Parking findOne(@Param("parkingId") Long parkingId);
 }

@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data @NoArgsConstructor
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+@Data
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Parking {
     @Id
-    @Column//(name = "PID")
+    @Column (name = "parking_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String PARKING_NAME;        // "마들스타디움(근린공원)(구)"
@@ -37,35 +37,35 @@ public class Parking {
     private double LNG;                 // 127.05856743
 
 
-    @OneToMany//(mappedBy = "RID")
-    List<Review> reviews = new ArrayList<>();
+    @OneToMany (mappedBy = "parking")
+    private List<Review> reviews = new ArrayList<>();
 
 
-    @Builder
-    public Parking(Long id, String PARKING_NAME, String ADDR,
-                   String PARKING_CODE, String PARKING_TYPE_NM,
-                   String OPERATION_RULE_NM, String TEL, double CAPACITY,
-                   String PAY_NM, String WEEKDAY_BEGIN_TIME, String WEEKDAY_END_TIME,
-                   String SYNC_TIME, double RATES, double TIME_RATE, double ADD_RATES,
-                   double ADD_TIME_RATE, double LAT, double LNG) {
-        this.id = id;
-        this.PARKING_NAME = PARKING_NAME;
-        this.ADDR = ADDR;
-        this.PARKING_CODE = PARKING_CODE;
-        this.PARKING_TYPE_NM = PARKING_TYPE_NM;
-        this.OPERATION_RULE_NM = OPERATION_RULE_NM;
-        this.TEL = TEL;
-        this.CAPACITY = CAPACITY;
-        this.PAY_NM = PAY_NM;
-        this.WEEKDAY_BEGIN_TIME = WEEKDAY_BEGIN_TIME;
-        this.WEEKDAY_END_TIME = WEEKDAY_END_TIME;
-        this.SYNC_TIME = SYNC_TIME;
-        this.RATES = RATES;
-        this.TIME_RATE = TIME_RATE;
-        this.ADD_RATES = ADD_RATES;
-        this.ADD_TIME_RATE = ADD_TIME_RATE;
-        this.LAT = LAT;
-        this.LNG = LNG;
-    }
+//    @Builder
+//    public Parking(Long id, String PARKING_NAME, String ADDR,
+//                   String PARKING_CODE, String PARKING_TYPE_NM,
+//                   String OPERATION_RULE_NM, String TEL, double CAPACITY,
+//                   String PAY_NM, String WEEKDAY_BEGIN_TIME, String WEEKDAY_END_TIME,
+//                   String SYNC_TIME, double RATES, double TIME_RATE, double ADD_RATES,
+//                   double ADD_TIME_RATE, double LAT, double LNG) {
+//        this.id = id;
+//        this.PARKING_NAME = PARKING_NAME;
+//        this.ADDR = ADDR;
+//        this.PARKING_CODE = PARKING_CODE;
+//        this.PARKING_TYPE_NM = PARKING_TYPE_NM;
+//        this.OPERATION_RULE_NM = OPERATION_RULE_NM;
+//        this.TEL = TEL;
+//        this.CAPACITY = CAPACITY;
+//        this.PAY_NM = PAY_NM;
+//        this.WEEKDAY_BEGIN_TIME = WEEKDAY_BEGIN_TIME;
+//        this.WEEKDAY_END_TIME = WEEKDAY_END_TIME;
+//        this.SYNC_TIME = SYNC_TIME;
+//        this.RATES = RATES;
+//        this.TIME_RATE = TIME_RATE;
+//        this.ADD_RATES = ADD_RATES;
+//        this.ADD_TIME_RATE = ADD_TIME_RATE;
+//        this.LAT = LAT;
+//        this.LNG = LNG;
+//    }
 
 }

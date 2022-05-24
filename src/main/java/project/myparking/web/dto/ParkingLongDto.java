@@ -12,7 +12,7 @@ import javax.persistence.NamedAttributeNode;
  */
 
 @Data
-public class ParkingResponseComplex {
+public class ParkingLongDto {
 
     private String PARKING_NAME;        // "마들스타디움(근린공원)(구)"
     private String ADDR;                // "노원구 상계동 770-2"
@@ -29,7 +29,7 @@ public class ParkingResponseComplex {
     private double ADD_RATES;           // 150.0
     private double ADD_TIME_RATE;       // 5.0
 
-    public ParkingResponseComplex(Parking entity) {
+    public ParkingLongDto(Parking entity) {
         this.PARKING_NAME = entity.getPARKING_NAME();
         this.ADDR = entity.getADDR();
         this.PARKING_CODE = entity.getPARKING_CODE();

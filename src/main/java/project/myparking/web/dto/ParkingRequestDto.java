@@ -4,10 +4,10 @@ import lombok.Getter;
 import project.myparking.domain.Parking;
 
 @Getter
-public class ParkingRequest {
+public class ParkingRequestDto {
 
     private String addr;
-    public ParkingRequest(Parking entity) {
+    public ParkingRequestDto(Parking entity) {
         this.addr = entity.getADDR();
     }
 }
