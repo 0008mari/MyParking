@@ -3,10 +3,7 @@ package project.myparking.web.dto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import project.myparking.domain.Keyword;
-import project.myparking.domain.Parking;
-import project.myparking.domain.Review;
-import project.myparking.domain.User;
+import project.myparking.domain.*;
 
 import java.security.Key;
 
@@ -16,23 +13,33 @@ public class ReviewSaveRequest {
 
     private User user;
     private Parking parking;
-    private Keyword keyword;
-    private int starScore;
+    private EvalSpace evalSpace;
+    private EvalCostefficient evalCostefficient;
+    private EvalParkinglevel evalParkinglevel;
+    private EvalStaff evalStaff;
+    private EvalRevisit evalRevisit;    private int starScore;
 
     @Builder
-    public ReviewSaveRequest(User user, Parking parking, Keyword keyword, int starScore) {
+    public ReviewSaveRequest(User user, Parking parking,
+                             EvalSpace evalSpace, EvalCostefficient evalCostefficient,
+                             EvalParkinglevel evalParkinglevel, EvalStaff evalStaff,
+                             EvalRevisit evalRevisit, int starScore) {
         this.user = user;
         this.parking = parking;
-        this.keyword = keyword;
+        this.evalSpace = evalSpace;
+        this.evalCostefficient = evalCostefficient;
+        this.evalParkinglevel = evalParkinglevel;
+        this.evalStaff = evalStaff;
+        this.evalRevisit = evalRevisit;
         this.starScore = starScore;
     }
 
-    public Review toEntity() {
-        return Review.builder().build();
-//                .user(user)
-//                .parking(parking)
-//                .keyword(keyword)
-//                .starScore(starScore)
-//                .build();
-    }
+//    public Review toEntity() {
+//        return Review.builder().build();
+////                .user(user)
+////                .parking(parking)
+////                .keyword(keyword)
+////                .starScore(starScore)
+////                .build();
+//    }
 }
