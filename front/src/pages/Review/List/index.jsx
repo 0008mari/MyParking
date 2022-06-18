@@ -1,4 +1,4 @@
-import { List, Button, Row, Col, Rate } from "antd";
+import { List, Radio, Col, Rate } from "antd";
 
 const data = [
   { title: "주차장 넓이", select: ["넓어요", "적당해요", "좁아요"] },
@@ -15,16 +15,17 @@ function ReviewList() {
       <List
         bordered
         dataSource={data}
+        style={{ width: "400px" }}
         renderItem={(item) => (
-          <List.Item style={{ padding: "30px" }}>
+          <List.Item style={{ padding: "20px" }}>
             <Col>
-              <div>{item.title}</div>
-              <Row>
+              <div style={{ marginBottom: "10px" }}>{item.title}</div>
+              <Radio.Group size="large">
                 {item.select.map((selectBtn) => (
-                  <Button>{selectBtn}</Button>
+                  <Radio.Button value={selectBtn}>{selectBtn}</Radio.Button>
                 ))}
                 {item.select.length === 0 && <Rate />}
-              </Row>
+              </Radio.Group>
             </Col>
           </List.Item>
         )}

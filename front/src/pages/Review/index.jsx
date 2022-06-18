@@ -1,13 +1,15 @@
-import { Button, Col } from "antd";
+import { Button } from "antd";
 import ReviewList from "./List";
+
+import { PageWrapper } from "./styled";
 
 function ReviewPage() {
   return (
-    <Col justify="center" style={{ width: "500px" }}>
+    <PageWrapper>
       <h1>리뷰쓰기</h1>
       <ReviewList />
-      <Button>리뷰 남기기</Button>
-    </Col>
+      <Button size="large">리뷰 남기기</Button>
+    </PageWrapper>
   );
 }
 
