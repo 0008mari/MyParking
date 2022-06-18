@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+const RowFlexWrapper = styled.div`
+  display: flex;
+`;
+
 const LeftWrapper = styled.div`
   padding: 10px;
 
@@ -8,6 +12,14 @@ const LeftWrapper = styled.div`
   gap: 10px;
 
   width: 350px;
+
+  button {
+    margin-bottom: 10px;
+  }
+`;
+
+const RightWrapper = styled.div`
+  width: calc(100vw - 350px);
 `;
 
 const FlexWrapper = styled.div`
@@ -15,4 +27,4 @@ const FlexWrapper = styled.div`
   flex-direction: column;
 `;
 
-export { LeftWrapper, FlexWrapper };
+export { RowFlexWrapper, LeftWrapper, RightWrapper, FlexWrapper };
