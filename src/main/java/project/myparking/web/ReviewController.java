@@ -11,6 +11,7 @@ import project.myparking.domain.User;
 import project.myparking.service.ParkingService;
 import project.myparking.service.ReviewService;
 import project.myparking.service.UserService;
+import project.myparking.web.dto.ParkingLongDto;
 
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class ReviewController {
     @GetMapping(value = "/review")
     public String createForm(Model model) {
         List<User> users = userService.findUsers();
-        List<Parking> parkings = parkingService.findAll();
+        List<ParkingLongDto> parkings = parkingService.findAll();
         model.addAttribute("users", users);
         model.addAttribute("parkings", parkings);
 

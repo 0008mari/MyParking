@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Data
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor// (access = AccessLevel.PROTECTED)
 public class Parking {
     @Id
     @Column (name = "parking_id")
@@ -39,6 +39,9 @@ public class Parking {
 
     @OneToMany (mappedBy = "parking")
     private List<Review> reviews = new ArrayList<>();
+
+    public Parking(long l, String parking_name, String addr, String parking_code, String parking_type_nm, String operation_rule_nm, String tel, double capacity, String pay_nm, String weekday_begin_time, String weekday_end_time, String sync_time, double rates, double time_rate, double add_rates, double add_time_rate, double lat, double lng) {
+    }
 
 
 //    @Builder

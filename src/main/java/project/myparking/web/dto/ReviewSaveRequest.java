@@ -17,7 +17,8 @@ public class ReviewSaveRequest {
     private EvalCostefficient evalCostefficient;
     private EvalParkinglevel evalParkinglevel;
     private EvalStaff evalStaff;
-    private EvalRevisit evalRevisit;    private int starScore;
+    private EvalRevisit evalRevisit;
+    private int starScore;
 
     @Builder
     public ReviewSaveRequest(User user, Parking parking,

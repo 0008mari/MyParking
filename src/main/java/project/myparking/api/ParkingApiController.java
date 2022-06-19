@@ -36,6 +36,20 @@ public class ParkingApiController {
         return parkingService.findByAddr(addr);
     }
 
+//    @RestController
+//    @RequestMapping("employees")
+//    public class EmployeeController
+//    {
+//        @RequestMapping(value = "/{name}", method = RequestMethod.GET, produces = "application/json")
+//        public Employee getEmployeeByName(@PathVariable String name) {
+//
+//            //pull date
+//
+//            return employee;
+//        }
+//    }
+
+
 /**
  * POST 나 PUT 을 사용하는 메소드에는 @RequestBody 로 받아오고, 
  * GET 메소드는 @RequestParam 어노테이션 사용

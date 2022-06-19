@@ -27,15 +27,15 @@ public class ParkingService {
     }
 
     @Transactional(readOnly = true)
-    public List<Parking> findAll() {
+    public List<ParkingLongDto> findAll() {
         List<Parking> list = parkingRepository.findAll();
 
+        return list.stream()
+                .map(ParkingLongDto::new)
+                .collect(Collectors.toList());
         // Converting Entity to DTO
 //        if(list.isEmpty()) new IllegalArgumentException("주차장 DB 먼저 생성해주세요!!\n");
 //        // parkingRepository 결과로 넘어온 Parking의 stream을 map을 통해 List<ParkingResponseComplex>로 반환
-//        return list.stream()
-//                .map(ParkingResponseComplex::new)
-//                .collect(Collectors.toList());
     }
 
 }
