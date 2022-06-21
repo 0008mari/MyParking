@@ -12,8 +12,11 @@ import java.util.Optional;
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
 
-    @Query("SELECT p FROM Review p ORDER BY p.id ASC")
-    List<Review> findAllAsc();
+//    @Query("SELECT r FROM Review r ORDER BY r.id ASC")
+//    List<Review> findAllAsc();
+
+    @Query("select r from Review r where r.parking.id = :pid")
+    List<Review> findByPid(@Param("pid") Long pid);
 
     @Query("select r from Review r where r.parking.PARKING_CODE = :parkingCode")
     List<Review> findByParkingCode(@Param("parkingCode") String parkingCode);

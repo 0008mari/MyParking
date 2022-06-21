@@ -8,13 +8,11 @@ import project.myparking.domain.*;
 public class ReviewDto {
 
     private String userName;
-
     private EvalSpace evalSpace;
     private EvalParkinglevel evalParkinglevel;
     private EvalCostefficient evalCostefficient;
     private EvalStaff evalStaff;
     private EvalRevisit evalRevisit;
-
     private int starScore;
 
     public ReviewDto(Review review) {
