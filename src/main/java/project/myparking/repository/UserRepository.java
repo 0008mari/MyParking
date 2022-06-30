@@ -10,11 +10,13 @@ import project.myparking.domain.User;
 import java.util.List;
 import java.util.Optional;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, String> {
 
-    @Query("select u from User u where u.id =:userId")
-    User findOne(@Param("userId") Long userId);
+    @Query("select u from User u where u.id =:uid")
+    Optional<User> findOne(@Param("uid") Long uid);
 
     @Query("SELECT u FROM User u where u.email =:email")
-    User findByEmail(@Param("email")String email);
+    Optional <User> findByEmail(@Param("email")String email);
+
+
 }

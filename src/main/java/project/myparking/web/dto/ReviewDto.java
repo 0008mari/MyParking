@@ -7,7 +7,9 @@ import project.myparking.domain.*;
 @Data
 public class ReviewDto {
 
-    private String userName;
+    private Long userId;
+
+    private Long parkingId;
     private EvalSpace evalSpace;
     private EvalParkinglevel evalParkinglevel;
     private EvalCostefficient evalCostefficient;
@@ -16,7 +18,9 @@ public class ReviewDto {
     private int starScore;
 
     public ReviewDto(Review review) {
-        userName = review.getUser().getName();
+        userId = review.getUser().getId();
+        parkingId = review.getParking().getId();
+
         evalSpace = review.getEvalSpace();
         evalCostefficient = review.getEvalCostefficient();
         evalStaff = review.getEvalStaff();

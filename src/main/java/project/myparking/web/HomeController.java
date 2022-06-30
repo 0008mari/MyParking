@@ -21,6 +21,18 @@ public class HomeController {
     @Autowired
     private ParkingRepository parkingRepository;
 
+
+    @GetMapping("dashboard")
+    public String dashboard() {
+        return "dashboard";
+    }
+
+    @GetMapping("admin")
+    public String admin() {
+        return "admin";
+    }
+
+
     @GetMapping
     public String index(){
         return "index";

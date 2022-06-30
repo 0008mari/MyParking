@@ -9,7 +9,9 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 import project.myparking.domain.Parking;
 import project.myparking.domain.Review;
+import project.myparking.repository.ParkingRepository;
 import project.myparking.repository.ReviewRepository;
+import project.myparking.repository.UserRepository;
 import project.myparking.service.ReviewService;
 import project.myparking.service.ReviewsService;
 import project.myparking.web.dto.ParkingShortDto;
@@ -24,12 +26,13 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor // API CONTROLLER 에서는 ENTITY 주고받지 마시오
-@RequestMapping("api/v1/parkings")
+@RequestMapping("api/v1")
 public class ReviewApiController {
-
-    @Autowired
-    private final ReviewService reviewService;
+    // @Autowired
+    // private final ReviewService reviewService;
     private final ReviewRepository reviewRepository;
+    private final UserRepository userRepository;
+    private final ParkingRepository parkingRepository;
 
     /**
      * V1. 엔티티 직접 노출
@@ -39,16 +42,14 @@ public class ReviewApiController {
      */
 
     @Operation(summary = "pid값을 가지는 주차장의 리뷰의 정보 출력")
-    @GetMapping("/{parkingId}/reviews")
-    public List<ReviewDto> allReviewsByPid(@PathVariable Long parkingId) {
-        List<Review> reviewList = reviewRepository.findByPid(parkingId);
+    @GetMapping("/parkings/{pid}/reviews")
+    public List<ReviewDto> allReviewsByPid(@PathVariable Long pid) {
+        List<Review> reviewList = reviewRepository.findByPid(pid);
 
         return reviewList.stream()
                 .map(ReviewDto::new)
                 .collect(Collectors.toList());
     }
-
-
 //    /**
 //     * V2. 엔티티를 DTO 로 변환
 //     */
@@ -56,29 +57,41 @@ public class ReviewApiController {
 //    public List<ReviewDto> findById(@PathVariable("PARKING_CODE") String parkingCode) {
 //        return reviewService.findByParkingCode(parkingCode);
 //    }
+    @PostMapping("/parkings/{pid}/reviews")
+    @Operation(summary = "해당 주차장에 리뷰 등록")
+    public Long createReview(@PathVariable Long pid, @RequestBody ReviewDto requestDto) {
 
-    @GetMapping("/reviews")
+        Review review = new Review();
+        // review.setId();
+        review.setUser(userRepository.findOne(requestDto.get()));
+        review.setParking(parkingRepository.findOne(pid));
+
+        review.setEvalParkinglevel(requestDto.getEvalParkinglevel());
+        review.setEvalRevisit(requestDto.getEvalRevisit());
+        review.setEvalSpace(requestDto.getEvalSpace());
+        review.setEvalCostefficient(requestDto.getEvalCostefficient());
+        review.setEvalStaff(requestDto.getEvalStaff());
+        review.setStarScore(requestDto.getStarScore());
+        reviewRepository.save(review);
+    }
+
+    @GetMapping("/parkings/reviews")
     @Operation(summary = "모든 리뷰 출력")
     public List<ReviewDto> findAll() {
         return reviewRepository.findAll().stream().map(ReviewDto::new).collect(Collectors.toList());
     }
 
-    @PostMapping("/{parkingId}/reviews")
-    @Operation(summary = "해당 주차장에 리뷰 등록")
-    public Long createReview(@RequestBody ReviewDto requestDto) {
 
-        return reviewRepository.save(new Review());
-    }
 
-    @PutMapping("/api/v1/reviews/{id}")
+    @PutMapping("/parkings/reviews/{rid}")
     @Operation(summary = "리뷰 수정")
-    public Long update(@PathVariable Long id, @RequestBody ReviewUpdateRequestDto requestDto) {
-        return reviewService.update(id, requestDto);
+    public Long update(@PathVariable Long rid, @RequestBody ReviewDto requestDto) {
+        // return reviewService.update(rid, requestDto);
     }
 
-    @DeleteMapping("/api/v1/reviews/{id}")
+    @DeleteMapping("/parkings/{pid}/reviews/{rid}")
     @Operation(summary = "리뷰 삭제")
-    public Long delete(@PathVariable Long id) {
+    public Long delete(@PathVariable Long pid, @PathVariable Long rid) {
         reviewService.delete(id);
         return id;
     }

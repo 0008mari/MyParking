@@ -24,5 +24,9 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     @Query("select r from Review r where r.user = :userId and r.parking.PARKING_CODE = :parkingCode")
     List<Review> findByUserParking(@Param("userId") Long userId, @Param("parkingCode") String parkingCode);
 
+    @Query("select avg(r.starScore) from Parking p, Review r where r.parking.id=:pid")
+    int getAvgScoreFromReviewsOfThisParking(@Param("pid") Long pid);
 
+    @Query("select COUNT(r) from Review r where r.parking.id=:pid")
+    int getReviewCountOfThisParking(@Param("pid") Long pid);
 }

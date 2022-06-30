@@ -36,12 +36,42 @@ public class Parking {
     @Transient
     private double LNG;                 // 127.05856743
 
-
     @OneToMany (mappedBy = "parking")
     private List<Review> reviews = new ArrayList<>();
 
+    /* not from OpenAPI, review database 로 부터 생성된다 */
+    // private double reviewStarAvg;
+    // private int reviewCount;
+
     public Parking(long l, String parking_name, String addr, String parking_code, String parking_type_nm, String operation_rule_nm, String tel, double capacity, String pay_nm, String weekday_begin_time, String weekday_end_time, String sync_time, double rates, double time_rate, double add_rates, double add_time_rate, double lat, double lng) {
     }
+
+    public int getReviewCount(){
+        return reviews.size();
+    }
+    
+    public int getAvgScore(){
+        int total = 0;
+        for (Review r : reviews) {
+            total += r.getStarScore();
+        }
+        return total / reviews.size();
+    }
+
+    //==비즈니스 로직 ==//
+    /* 주차장 평점 reviewStarAvg , 리뷰갯수 reviewCount update */
+    public void keepTrack() {
+        if (user != 지금로그인계정) {
+            throw new IllegalStateException("해당 리뷰의 작성자가 아닙니다.")
+        }
+        // delete this review
+    }
+
+
+
+
+
+
 
 
 //    @Builder

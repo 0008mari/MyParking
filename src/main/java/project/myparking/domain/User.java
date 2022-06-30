@@ -13,21 +13,38 @@ import java.util.List;
 @NoArgsConstructor
 public class User extends BaseTimeEntity {
 
-    @Id @Column(name = "user_id")
-    private Long id;
+    // @Id // @Column(name = "user_id")
+    // private Long id;
 
     // @Column(nullable = false) - 앞단에서 처리?
-    private String name;
     private String alias;
 
-    @Column(nullable = false)
+    @Id @Column(nullable = false)
     private String email;
+
+    private String password;
+
+    private String name;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    public User(MemberSignupRequestDto request) {
+        email = request.getEmail();
+        password = request.getPassword();
+        name = request.getName();
+        role = Role.USER; // 회원가입하는 사용자 권한 기본 USER (임시)
+    }
+
+
     private String picture;
 
     @OneToMany(mappedBy = "user")
     private List<Review> reviews = new ArrayList<>();
 
-    // private Role role;
+    public void encryptPassword(PasswordEncoder passwordEncoder) {
+        password = passwordEncoder.encode(password);
+    }
 
 }
 
