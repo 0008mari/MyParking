@@ -9,9 +9,16 @@ import java.util.List;
 
 public interface ParkingRepository extends JpaRepository<Parking, Long> {
 
-    @Query("select p from Parking p where p.ADDR like '%:addr%'")
-    List<Parking> findByAddr(@Param("addr") String addr);
+    // Frame 0
+    @Query("select count(p) from Parking p")
+    int checkDB();
 
-    @Query("select p from Parking p where p.id =:pid")
-    Parking findOne(@Param("pid") Long pid);
+//    int save();
+
+    // Frame 3   JPA E.g. findByEmployeeNameContaining("Jone");
+    @Query("select p from Parking p where p.ADDR like %:addr%")
+    List<Parking> findByAddress(@Param("addr") String address);
+
+    @Query("select p from Parking p where p.parkingid =:parkingid")
+    Parking findOne(@Param("parkingid") Long parkingid);
 }

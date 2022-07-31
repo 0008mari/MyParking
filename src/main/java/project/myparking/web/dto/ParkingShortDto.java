@@ -13,7 +13,7 @@ public class ParkingShortDto {
 
     public ParkingShortDto(Parking entity) {
         this.name = entity.getPARKING_NAME();
-        this.reviewStarAvg = entity.getReviewStarAvg();
+        this.reviewStarAvg = entity.getAvgScore();
         this.reviewCount = entity.getReviewCount();
         this.address = entity.getADDR();
     }

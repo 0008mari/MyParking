@@ -24,7 +24,7 @@ public class UserService {
     public Long join(User user) {
         validateDuplicateUser(user); //중복 회원 검증
         userRepository.save(user);
-        return user.getId();
+        return user.getUserid();
     }
 
     /**

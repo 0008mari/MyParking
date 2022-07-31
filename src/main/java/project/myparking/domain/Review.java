@@ -11,7 +11,7 @@ public class Review extends BaseTimeEntity {
 
     @Id @Column(name = "review_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long reviewid;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parking_id")
@@ -49,12 +49,13 @@ public class Review extends BaseTimeEntity {
     }
 
     //==생성 메서드==//
-    public static Review createReview(User user, Parking parking,
+    public static Review addReview(User user, Parking parking,
                                       EvalSpace evalSpace,
                                       EvalCostefficient evalCostefficient,
                                       EvalParkinglevel evalParkinglevel,
                                       EvalStaff evalStaff,
-                                      EvalRevisit evalRevisit) {
+                                      EvalRevisit evalRevisit,
+                                   int starScore) {
         Review review = new Review();
         review.setUser(user);
         review.setParking(parking);
@@ -64,6 +65,8 @@ public class Review extends BaseTimeEntity {
         review.setEvalSpace(evalSpace);
         review.setEvalStaff(evalStaff);
         review.setEvalRevisit(evalRevisit);
+
+        review.setStarScore(starScore);
 
         return review;
     }
@@ -78,8 +81,8 @@ public class Review extends BaseTimeEntity {
 //    }
 
 
-    /** 리뷰 수정 */
-//    public void update(int newStarScore) {
-//        this.starScore = newStarScore;
-//    }
+//     리뷰 수정
+    public void update(int newStarScore) {
+        this.starScore = newStarScore;
+    }
 }
