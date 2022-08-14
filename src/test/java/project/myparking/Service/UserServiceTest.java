@@ -1,12 +1,12 @@
-package project.myparking.Service;
-
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-
-public class UserServiceTest {
-
+//package project.myparking.Service;
+//
+//import org.junit.runner.RunWith;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.boot.test.context.SpringBootTest;
+//import org.springframework.test.context.junit4.SpringRunner;
+//
+//public class UserServiceTest {
+//
 //    @RunWith(SpringRunner.class)  // 스프링과 테스트 통합
 //    @SpringBootTest
 //    @Transactional
@@ -37,4 +37,4 @@ public class UserServiceTest {
 //            //Then
 //            fail("예외가 발생해야 한다.");
 //        }
-}
+//}
