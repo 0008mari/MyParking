@@ -2,6 +2,8 @@ package project.myparking.api;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import project.myparking.domain.User;
@@ -14,11 +16,12 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/v1")
+@RequestMapping
 public class ReviewApiController {
 
     @Autowired
     private final ReviewService reviewService;
+    Logger logger = LoggerFactory.getLogger(ReviewApiController.class);
 
     /**
      * API CONTROLLER 에서는 ENTITY 주고받지 마시오
@@ -27,6 +30,7 @@ public class ReviewApiController {
      * - Hibernate5Module 모듈 등록, LAZY=null 처리
      * - 양방향 관계 문제 발생 -> @JsonIgnore
      */
+
 
     @GetMapping("/parkings/reviews/all")
     @Operation(summary = "모든 리뷰 출력")
@@ -40,14 +44,26 @@ public class ReviewApiController {
         return reviewService.findReviewsByPid(parkingid);
     }
 
-    @PostMapping("/parkings/{parkingid}/reviews")
-    @Operation(summary = "해당 주차장에 리뷰 등록")
-    public void addReview(@PathVariable Long parkingid, @RequestBody ReviewDto dto) {
-
-        reviewService.addReview(parkingid, dto);
+    @Operation(summary = "reviewid로 리뷰 찾기")
+    @GetMapping("/reviews/{reviewid}")
+    public ReviewDto findOne(@PathVariable Long reviewid) {
+        return reviewService.findOne(reviewid);
     }
 
-    @PutMapping("/parkings/reviews/{reviewid}")
+    @Operation(summary = "userid 로 리뷰 찾기")
+    @GetMapping("/reviews")
+    public List<ReviewDto> allReviewsByUid(@RequestParam Long userid) {
+        return reviewService.findReviewsByUid(userid);
+    }
+
+    @PostMapping("/reviews/new")
+    @Operation(summary = "해당 주차장에 리뷰 등록")
+    public void addReview(@RequestBody ReviewDto dto) {
+
+        reviewService.addReview(dto);
+    }
+
+    @PutMapping("/reviews/{reviewid}")
     @Operation(summary = "리뷰 수정")
     public void update(@PathVariable Long reviewid, @RequestBody ReviewUpdateDto dto, HttpServletRequest req) {
 
@@ -59,7 +75,7 @@ public class ReviewApiController {
 //        }
     }
 
-    @DeleteMapping("/parkings/reviews/{reviewid}")
+    @DeleteMapping("/reviews/{reviewid}")
     @Operation(summary = "리뷰 삭제")
     public void delete(@PathVariable Long reviewid, HttpServletRequest req) {
         User user = reviewService.findReviewWriter(reviewid);

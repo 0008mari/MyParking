@@ -23,10 +23,10 @@ public class ReviewService {
     private final ParkingRepository parkingRepository;
 
     @Transactional
-    public void addReview(Long parkingId, @NotNull ReviewDto dto) {
+    public void addReview(@NotNull ReviewDto dto) {
 
         // 엔티티 조회
-        Parking parking = parkingRepository.findOne(parkingId);
+        Parking parking = parkingRepository.findOne(dto.getParkingid());
         User user = userRepository.findOne(dto.getUserid());
 
         // 리뷰 생성
@@ -94,5 +94,19 @@ public class ReviewService {
 
     public User findReviewWriter(Long reviewid){
         return reviewRepository.findWriter(reviewid);
+    }
+
+    public ReviewDto findOne(Long reviewid){
+        Review review = reviewRepository.findOne(reviewid);
+        return new ReviewDto(review);
+    }
+
+    public List<ReviewDto> findReviewsByUid(Long userid) {
+        List<Review> reviewList = reviewRepository.findReviewsByUid(userid);
+        //  .orElseThrow(() -> new NotFoundException(parkingid));
+
+        return reviewList.stream()
+                .map(ReviewDto::new)
+                .collect(Collectors.toList());
     }
 }

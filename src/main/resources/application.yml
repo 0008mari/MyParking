@@ -13,6 +13,12 @@ spring:
     username: root
     password: 1234
 
+  session:
+    store-type: jdbc
+    jdbc:
+      initialize-schema: always
+      schema: classpath:org/springframework/session/jdbc/schema-mysql.sql
+
   jpa:
     hibernate:
       ddl-auto: create
@@ -26,6 +32,9 @@ spring:
       base-path: /api
       default-page-size: 6
       max-page-size: 6
+
+  profiles:
+    include: oauth
 
 logging.level:
   org.hibernate.SQL: debug

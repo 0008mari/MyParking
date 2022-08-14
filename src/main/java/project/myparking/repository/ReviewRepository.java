@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import project.myparking.domain.Review;
 import project.myparking.domain.User;
+import project.myparking.web.dto.ReviewDto;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +22,9 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     @Query("select r from Review r where r.parking.parkingid = :parkingid")
     List<Review> findReviewsByPid(@Param("parkingid") Long parkingid);
+
+    @Query("select r from Review r where r.user.userid = :userid")
+    List<Review> findReviewsByUid(@Param("userid") Long userid);
 
     @Query("select r from Review r where r.reviewid = :reviewid")
     Review findOne(@Param("reviewid") Long reviewid);

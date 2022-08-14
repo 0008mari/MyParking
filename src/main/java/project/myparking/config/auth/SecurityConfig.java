@@ -17,7 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import project.myparking.domain.Role;
-import project.myparking.service.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -31,10 +30,14 @@ import java.io.IOException;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CustomOAuth2UserService customOAuth2UserService;
-    private final CustomUserDetailService customUserDetailService;
-
     @Autowired
-    private UserService userService;
+    private final CustomUserDetailsService customUserDetailsService;
+
+
+    @Bean
+    public BCryptPasswordEncoder encodePWD() {
+        return new BCryptPasswordEncoder();
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -49,7 +52,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(customUserDetailService);
+        auth.userDetailsService(customUserDetailsService);
+//               .passwordEncoder(passwordEncoder());
+
     }
 
     /**
@@ -73,12 +78,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .authorizeRequests()
-                .antMatchers("/parkings/**", "/", "login.html", "/login").permitAll()
+                .antMatchers("/parkings/**", "/", "/login").permitAll()
                 .antMatchers("/reviews/**").hasRole(Role.USER.name())
                 .antMatchers("/admin").hasRole(Role.ADMIN.name())  // /admin 요청에 대해서는 Role이 ADMIN인 사용자만 허용
 
                 .anyRequest().authenticated()
-
+                /*
                 .and()
                     .formLogin()
 //                    .loginPage("/login.html") // 사용자 정의 로그인 페이지
@@ -113,14 +118,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                             }
                         }
                 )
+                */
                 .and()
-                    .logout().logoutSuccessUrl("/parkings/all")
+                    .logout().logoutSuccessUrl("/")
                 .and()
                     .oauth2Login()
                     .userInfoEndpoint()
                     .userService(customOAuth2UserService);
-
-
-
         }
 }
