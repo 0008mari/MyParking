@@ -71,11 +71,11 @@ public class ParkingApiController {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            map.put("msg", "FIRST TIME CREATED");
+            map.put("msg", "Parkinglot Data: FIRST TIME CREATED");
 
         } else {
             logger.info("database already exists NO NEED to refresh");
-            map.put("msg", "ALREADY EXISTS");
+            map.put("msg", "Parkinglot Data: ALREADY EXISTS");
         }
 
 //        SessionUser user = (SessionUser) httpSession.getAttribute("user");  // => annotation 으로 대체
