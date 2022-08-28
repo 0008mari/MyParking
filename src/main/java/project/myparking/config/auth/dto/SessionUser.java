@@ -23,7 +23,7 @@ public class SessionUser implements Serializable {
     private String email;
     private String picture;
     private String roleTitle;
-    private List<ReviewDto> dtolist;
+//    private List<ReviewDto> dtolist;
 
     public SessionUser(User user) {
         this.name = user.getUsername();
