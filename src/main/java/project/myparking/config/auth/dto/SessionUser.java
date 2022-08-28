@@ -19,9 +19,6 @@ import java.util.List;
 @Getter
 public class SessionUser implements Serializable {
 
-    @Autowired
-    ReviewRepository reviewRepository;
-
     private String name;
     private String email;
     private String picture;
@@ -34,10 +31,10 @@ public class SessionUser implements Serializable {
         this.picture = user.getPicture();
         this.roleTitle = user.getRole().getTitle();
 
-        List<Review> list = reviewRepository.findByUid(user.getUserid());
-
-        for(int i=0; i<list.size(); i++){
-            this.dtolist.add(new ReviewDto(list.get(i)));
-        }
+//        List<Review> list = reviewRepository.findByUid(user.getUserid());
+//
+//        for(int i=0; i<list.size(); i++){
+//            this.dtolist.add(new ReviewDto(list.get(i)));
+//        }
     }
 }
