@@ -1,8 +1,10 @@
 package project.myparking.config.auth.dto;
 
 import lombok.Getter;
+import org.springframework.beans.factory.annotation.Autowired;
 import project.myparking.domain.Review;
 import project.myparking.domain.User;
+import project.myparking.repository.ReviewRepository;
 import project.myparking.web.dto.ReviewDto;
 
 import java.io.Serializable;
@@ -16,6 +18,10 @@ import java.util.List;
  */
 @Getter
 public class SessionUser implements Serializable {
+
+    @Autowired
+    ReviewRepository reviewRepository;
+
     private String name;
     private String email;
     private String picture;
@@ -28,8 +34,8 @@ public class SessionUser implements Serializable {
         this.picture = user.getPicture();
         this.roleTitle = user.getRole().getTitle();
 
-        List<Review> list = user.getReviews();
-        
+        List<Review> list = reviewRepository.findByUid(user.getUserid());
+
         for(int i=0; i<list.size(); i++){
             this.dtolist.add(new ReviewDto(list.get(i)));
         }

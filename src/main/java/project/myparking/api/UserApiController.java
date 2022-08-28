@@ -21,7 +21,7 @@ import javax.servlet.http.HttpSession;
 @RestController
 public class UserApiController {
 //    @Autowired
-//    private UserRepository userRepository;
+     private final UserRepository userRepository;
 //    @Autowired
 //    private BCryptPasswordEncoder passwordEncoder;
 
