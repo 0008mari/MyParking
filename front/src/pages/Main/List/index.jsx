@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { List, Skeleton, Divider } from "antd";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-function InfiniteList() {
+function InfiniteList({ items }) {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
+
+  const navigate = useNavigate();
 
   const loadMoreData = () => {
     if (loading) {
@@ -24,6 +27,10 @@ function InfiniteList() {
       });
   };
 
+  const handleItemClick = () => {
+    navigate("/review/1");
+  };
+
   useEffect(() => {
     loadMoreData();
   }, []);
@@ -32,7 +39,7 @@ function InfiniteList() {
     <div
       id="scrollableDiv"
       style={{
-        height: "100vh",
+        height: "85vh",
         width: "100%",
         overflow: "auto",
         padding: "0 16px",
@@ -48,15 +55,15 @@ function InfiniteList() {
         scrollableTarget="scrollableDiv"
       >
         <List
-          dataSource={data}
-          renderItem={(item) => (
-            <List.Item key={item.id}>
+          dataSource={items}
+          renderItem={(item, i) => (
+            <List.Item key={item.id} onClick={handleItemClick}>
               <List.Item.Meta
-                avatar={"A"}
-                title={`홍익대 주차장`}
+                avatar={String.fromCharCode("A".charCodeAt(0) + i)}
+                title={item.place_name}
                 description={`평점 4.5`}
               />
-              {`서울특별시 마포구 와우산로 94`}
+              {item.address_name}
             </List.Item>
           )}
         />

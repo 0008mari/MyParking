@@ -11,11 +11,13 @@ import {
   RightWrapper,
   FlexWrapper,
 } from "./style";
+import { useState } from "react";
 const { Search } = Input;
 
 const onSearch = (value) => console.log(value);
 
 function Main() {
+  const [items, setItems] = useState([]);
   return (
     <RowFlexWrapper>
       <LeftWrapper>
@@ -28,10 +30,10 @@ function Main() {
             style={{ width: "100%" }}
           />
         </FlexWrapper>
-        <InfiniteList />
+        <InfiniteList items={items} />
       </LeftWrapper>
       <RightWrapper>
-        <Map />
+        <Map setItems={setItems} />
       </RightWrapper>
     </RowFlexWrapper>
   );

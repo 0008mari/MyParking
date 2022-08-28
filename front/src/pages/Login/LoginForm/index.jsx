@@ -2,10 +2,15 @@ import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 
 import "./style.css";
+import { appClient } from "../../../api";
+import { useNavigate } from "react-router-dom";
 
 function LoginForm() {
+  const navigate = useNavigate();
   const onFinish = (values) => {
-    console.log("Received values of form: ", values);
+    appClient.post("/login").then((response) => {
+      navigate("/");
+    });
   };
 
   return (
