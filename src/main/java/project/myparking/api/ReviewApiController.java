@@ -67,7 +67,7 @@ public class ReviewApiController {
 
     @PutMapping("/reviews/{reviewid}")
     @Operation(summary = "리뷰 수정")
-    public void update(@PathVariable Long reviewid, @RequestBody ReviewUpdateDto dto,
+    public String update(@PathVariable Long reviewid, @RequestBody ReviewUpdateDto dto,
                        HttpServletRequest req, @LoginUser SessionUser loginuser) {
 
         User user = reviewService.findReviewWriter(reviewid);
@@ -75,17 +75,23 @@ public class ReviewApiController {
         // 내가 작성한 리뷰일 경우에만 리뷰 삭제
         if(user.getEmail() == loginuser.getEmail()){
             reviewService.update(reviewid, dto);
+            return "Review Update Success";
+        } else{
+            return "Review Update Fail";
         }
     }
 
     @DeleteMapping("/reviews/{reviewid}")
     @Operation(summary = "리뷰 삭제")
-    public void delete(@PathVariable Long reviewid, HttpServletRequest req, @LoginUser SessionUser loginuser) {
+    public String delete(@PathVariable Long reviewid, HttpServletRequest req, @LoginUser SessionUser loginuser) {
         User user = reviewService.findReviewWriter(reviewid);
 
         // 내가 작성한 리뷰일 경우에만 리뷰 삭제
         if(user.getEmail() == loginuser.getEmail()){
-        reviewService.delete(reviewid);
+            reviewService.delete(reviewid);
+            return "Review Delete Success";
+        } else {
+            return "Review Delete Fail";
         }
     }
 }
