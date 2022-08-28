@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import project.myparking.config.auth.LoginUser;
+import project.myparking.config.auth.dto.SessionUser;
 import project.myparking.domain.User;
 import project.myparking.service.ReviewService;
 import project.myparking.web.dto.ReviewDto;
@@ -65,25 +67,26 @@ public class ReviewApiController {
 
     @PutMapping("/reviews/{reviewid}")
     @Operation(summary = "리뷰 수정")
-    public void update(@PathVariable Long reviewid, @RequestBody ReviewUpdateDto dto, HttpServletRequest req) {
+    public void update(@PathVariable Long reviewid, @RequestBody ReviewUpdateDto dto,
+                       HttpServletRequest req, @LoginUser SessionUser loginuser) {
 
         User user = reviewService.findReviewWriter(reviewid);
 
         // 내가 작성한 리뷰일 경우에만 리뷰 삭제
-//        if(req.getSession().getAttribute("login") == user.getUserid()){
-        reviewService.update(reviewid, dto);
-//        }
+        if(user.getEmail() == loginuser.getEmail()){
+            reviewService.update(reviewid, dto);
+        }
     }
 
     @DeleteMapping("/reviews/{reviewid}")
     @Operation(summary = "리뷰 삭제")
-    public void delete(@PathVariable Long reviewid, HttpServletRequest req) {
+    public void delete(@PathVariable Long reviewid, HttpServletRequest req, @LoginUser SessionUser loginuser) {
         User user = reviewService.findReviewWriter(reviewid);
 
         // 내가 작성한 리뷰일 경우에만 리뷰 삭제
-//        if(req.getSession().getAttribute("login") == user.getUserid()){
+        if(user.getEmail() == loginuser.getEmail()){
         reviewService.delete(reviewid);
-//        }
+        }
     }
 }
 

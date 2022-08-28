@@ -82,6 +82,9 @@ public class ParkingApiController {
         if (user != null) {
             map.put("user", user.getName());
         }
+        else {
+            map.put("user", null);
+        }
 
         return map;
     }

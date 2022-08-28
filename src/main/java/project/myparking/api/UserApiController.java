@@ -20,13 +20,28 @@ import javax.servlet.http.HttpSession;
 @RequiredArgsConstructor
 @RestController
 public class UserApiController {
-    Logger logger = LoggerFactory.getLogger(UserApiController.class);
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+//    @Autowired
+//    private UserRepository userRepository;
+//    @Autowired
+//    private BCryptPasswordEncoder passwordEncoder;
 
+    Logger logger = LoggerFactory.getLogger(UserApiController.class);
     private final HttpSession httpSession;
+
+    @GetMapping(value="/user/info")
+    public SessionUser loggedinUser() {
+
+        logger.info("UserApiController loggedinUser() ");
+
+        if( httpSession.getAttribute("user") != null ){
+            return (SessionUser) httpSession.getAttribute("user");
+        }
+        else{
+            return null;
+        }
+    }
+
+
 
 //    @PostMapping(value="/admin/signup",
 ////            consumes = {"application/x-www-form-urlencoded"} ,
