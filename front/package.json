@@ -44,5 +44,8 @@
     "eslint": "^8.15.0",
     "msw": "^0.45.0",
     "prettier": "^2.6.2"
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }
