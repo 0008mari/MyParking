@@ -1,4 +1,4 @@
-package project.myparking.exception;
+package project.myparking.global.exception;
 
 public class NoSuchUserException extends RuntimeException{
 //    public NotEnoughStockException() {
