@@ -1,26 +1,31 @@
 package project.myparking.api;
 
 import io.swagger.v3.oas.annotations.Operation;
+import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import project.myparking.config.auth.LoginUser;
 import project.myparking.config.auth.dto.SessionUser;
+import project.myparking.domain.Review;
 import project.myparking.domain.User;
-import project.myparking.global.api.CustomResponse;
-import project.myparking.service.ReviewService;
 import project.myparking.dto.ReviewDto;
-import project.myparking.dto.ReviewUpdateDto;
-import javax.servlet.http.HttpServletRequest;
-import java.util.List;
+import project.myparking.global.api.CustomResponse;
+import project.myparking.global.exception.CustomException;
+import project.myparking.service.ReviewService;
+import project.myparking.util.StringUtil;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping
+@RequestMapping("/reviews")
 public class ReviewApiController {
 
     private final ReviewService reviewService;
@@ -32,30 +37,54 @@ public class ReviewApiController {
      * - 양방향 관계 문제 발생 -> @JsonIgnore
      */
 
-    @GetMapping("/parkings/reviews/{parkingId}")
-    public ResponseEntity<CustomResponse> allReviewsByParkingId(@PathVariable Long parkingId) {
-        return CustomResponse.CommonResponse(HttpStatus.OK, true,
-            "주차장ID 로 해당 주차장에 작성된 리뷰 출력 성공", reviewService.findReviewsByParkingId(parkingId));
-    }
-
-    @GetMapping("/reviews/{reviewid}")
+    @GetMapping("/{reviewId}")
     public ResponseEntity<CustomResponse> getReviewById(@PathVariable Long reviewId) {
         return CustomResponse.CommonResponse(HttpStatus.OK, true,
-            "리뷰ID 로 작성된 리뷰 출력 성공", reviewService.findOne(reviewId));
+            "리뷰ID 로 작성된 리뷰 출력 성공", reviewService.getReviewById(reviewId));
     }
 
-    @GetMapping("/reviews")
-    public ResponseEntity<CustomResponse> getAllReviewsByUserId(@RequestParam Long userId) {
+    @GetMapping
+    public ResponseEntity<CustomResponse> allReviewsByParkingIdOrUserId(@RequestParam(required = false) String parkingId,
+        @RequestParam(required = false) String userId) {
+
+        Long getParkingId = 0L;
+        Long getUserId = 0L;
+        Object data = null;
+
+        if(!StringUtil.controllerParamIsBlank(parkingId) && StringUtil.controllerParamIsBlank(userId)) {
+            try {
+                getParkingId = Long.parseLong(parkingId);
+            } catch (NumberFormatException e) {
+                throw new CustomException(HttpStatus.BAD_REQUEST, "잘못된 주차장 ID 입니다. 리뷰목록 조회에 실패했습니다.");
+            }
+            data = reviewService.getReviewsByParkingId(getParkingId);
+        }
+        else if(StringUtil.controllerParamIsBlank(parkingId) && !StringUtil.controllerParamIsBlank(userId)) {
+            try {
+                getParkingId = Long.parseLong(parkingId);
+            } catch (NumberFormatException e) {
+                throw new CustomException(HttpStatus.BAD_REQUEST,
+                    "잘못된 사용자 ID 입니다. 리뷰목록 조회에 실패했습니다.");
+            }
+            data = reviewService.getReviewsByUserId(getUserId);
+        }
+
+        // TODO: 입력 값 2개일 때 예외 처리 해줘야함
         return CustomResponse.CommonResponse(HttpStatus.OK, true,
-        "사용자ID 로 작성된 리뷰 출력 성공", reviewService.getReviewsByUid(userId));
+            "주차장 ID 또는 사용자 ID로 해당 주차장에 작성된 리뷰 출력 성공", data);
     }
-//
-//    @PostMapping("/reviews/new")
-//    @Operation(summary = "해당 주차장에 리뷰 등록")
-//    public void addReview(@RequestBody ReviewDto dto) {
-//
-//        reviewService.addReview(dto);
-//    }
+
+    @PostMapping("/new")
+    @Operation(summary = "해당 주차장에 리뷰 등록")
+    public ResponseEntity<CustomResponse> addReview(@RequestBody ReviewDto dto) {
+        Review review = reviewService.addReview(dto);
+        
+        if(review == null){
+            throw new CustomException(HttpStatus.BAD_REQUEST, "리뷰 작성 실패");
+        }
+        return CustomResponse.CommonResponse(HttpStatus.CREATED, true,
+            "리뷰 작성 성공", review.getId());
+    }
 //
 //    @PutMapping("/reviews/{reviewid}")
 //    @Operation(summary = "리뷰 수정")
@@ -73,19 +102,19 @@ public class ReviewApiController {
 //        }
 //    }
 //
-//    @DeleteMapping("/reviews/{reviewid}")
-//    @Operation(summary = "리뷰 삭제")
-//    public String delete(@PathVariable Long reviewid, HttpServletRequest req, @LoginUser SessionUser loginuser) {
-//        User user = reviewService.findReviewWriter(reviewid);
-//
-//        // 내가 작성한 리뷰일 경우에만 리뷰 삭제
-//        if(user.getEmail() == loginuser.getEmail()){
-//            reviewService.delete(reviewid);
-//            return "Review Delete Success";
-//        } else {
-//            return "Review Delete Fail";
-//        }
-//    }
+    @DeleteMapping("/reviews/{reviewid}")
+    @Operation(summary = "리뷰 삭제")
+    public ResponseEntity<CustomResponse> deleteReview (@PathVariable Long reviewId, HttpServletRequest req, @LoginUser SessionUser loginuser) {
+        User user = reviewService.getReviewWriter(reviewId);
+
+        // 내가 작성한 리뷰일 경우에만 리뷰 삭제
+        if(user.getEmail() == loginuser.getEmail()){
+            reviewService.delete(reviewId);
+            return CustomResponse.CommonResponse(HttpStatus.OK, true,
+                "리뷰 삭제 성공", reviewId);
+        } else {
+            return CustomResponse.CommonResponse(HttpStatus.BAD_REQUEST, false, "리뷰 삭제 실패");
+        }
+    }
+
 }
-
-

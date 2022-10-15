@@ -1,16 +1,15 @@
 package project.myparking.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.myparking.domain.Parking;
-import project.myparking.global.exception.NoDataException;
-import project.myparking.repository.ParkingRepository;
 import project.myparking.dto.ParkingLongDto;
 import project.myparking.dto.ParkingShortDto;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import project.myparking.global.exception.NoDataException;
+import project.myparking.repository.ParkingRepository;
 
 @RequiredArgsConstructor
 @Service
@@ -26,7 +25,7 @@ public class ParkingService {
     }
 
     @Transactional(readOnly = true)
-    public List<ParkingShortDto> findByAddress(String address) {
+    public List<ParkingShortDto> getParkingByAddress(String address) {
         List<Parking> list = parkingRepository.findAllByAddressContaining(address);
         if (list.isEmpty()) throw new NoDataException();
 
