@@ -1,18 +1,26 @@
 package project.myparking.domain;
 
-import lombok.*;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-//import project.myparking.web.dto.SignupDto;
-
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
-@Getter
-@Setter
+@Getter @Setter
 @NoArgsConstructor
+@Table(name = "users")
 public class User extends BaseTimeEntity {
     /*
     카카오 프로필 : String nickname, String profile_image, String thumbnail_image_url, Boolean prifile_needs_agreement
@@ -53,14 +61,14 @@ public class User extends BaseTimeEntity {
     @OneToMany(mappedBy = "user")
     private List<Review> reviews = new ArrayList<>();
 
-    @Builder
-    public User(String email, String username, Role role, String picture, String pwd) {
-        this.username = username;
-        this.password = encryptPassword(pwd);
-        this.email = email;
-        this.picture = picture;
-        this.role = role;
-    }
+//    @Builder
+//    public User(String email, String username, Role role, String picture, String pwd) {
+//        this.username = username;
+//        this.password = encryptPassword(pwd);
+//        this.email = email;
+//        this.picture = picture;
+//        this.role = role;
+//    }
 
     public User update(String name, String picture){
         this.username = name;
@@ -81,11 +89,11 @@ public class User extends BaseTimeEntity {
 //    public void encryptPassword(PasswordEncoder passwordEncoder) {
 //        password = passwordEncoder.encode(password);
 //    }
-    public String encryptPassword(String pwd) {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        if(pwd == null) pwd = "0";
-        return passwordEncoder.encode(pwd);
-    }
+//    public String encryptPassword(String pwd) {
+//        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+//        if(pwd == null) pwd = "0";
+//        return passwordEncoder.encode(pwd);
+//    }
 }
 
 

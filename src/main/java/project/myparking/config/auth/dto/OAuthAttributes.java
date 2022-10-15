@@ -62,12 +62,12 @@ public class OAuthAttributes {
      *              가입할때 기본 권한을 GUEST 로 주기 위해 role 빌더값에는 Role.GUEST 사용
      *              OAuthAttributes 클래서 생성이 끝났으면 같은 패키지에 SessionUser 클래스를 생성
      */
-    public User toEntity() {
-        return User.builder()
-                .username(name)
-                .email(email)
-                .picture(picture)
-                .role(Role.USER)
-                .build();
-    }
+//    public User toEntity() {
+//        return User.builder()
+//                .username(name)
+//                .email(email)
+//                .picture(picture)
+//                .role(Role.USER)
+//                .build();
+//    }
 }
