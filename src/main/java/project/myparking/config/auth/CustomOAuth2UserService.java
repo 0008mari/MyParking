@@ -70,7 +70,7 @@ public class CustomOAuth2UserService
 //                .map(entity -> entity.update(attributes.getName(), attributes.getPicture()))
 //                .orElse(attributes.toEntity());
 
-        User user = userRepository.findByEmail(attributes.getEmail());
+        User user = userRepository.findByEmailContaining(attributes.getEmail());
         if(user != null){
             user.update(attributes.getName(), attributes.getPicture());
         }

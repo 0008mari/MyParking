@@ -9,16 +9,6 @@ import java.util.List;
 
 public interface ParkingRepository extends JpaRepository<Parking, Long> {
 
-    // Frame 0
-    @Query("select count(p) from Parking p")
-    int checkDB();
-
-//    int save();
-
-    // Frame 3   JPA E.g. findByEmployeeNameContaining("Jone");
-    @Query("select p from Parking p where p.ADDR like %:addr%")
-    List<Parking> findByAddress(@Param("addr") String address);
-
-    @Query("select p from Parking p where p.parkingid =:parkingid")
-    Parking findOne(@Param("parkingid") Long parkingid);
+    // Long count();
+    List<Parking> findAllByAddressContaining(String address);
 }

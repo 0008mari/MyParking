@@ -5,43 +5,30 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import project.myparking.domain.Review;
 import project.myparking.domain.User;
-import project.myparking.web.dto.ReviewDto;
 
 import java.util.List;
-import java.util.Optional;
 
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
+    @Query("select r.user from Review r where r.id = :reviewId")
+    User findWriter(@Param("reviewId") Long reviewId);
 
-    @Query("delete from Review r where r.reviewid = :reviewid")
-    void deleteByRid(@Param("reviewid") Long reviewid);
+    @Query("select r from Review r where r.parking.id = :parkingId")
+    List<Review> findAllByParkingId(@Param("parkingId") Long parkingId);
 
-    @Query("select r.user from Review r where r.reviewid = :reviewid")
-    User findWriter(@Param("reviewid") Long reviewid);
+    @Query("select r from Review r where r.user.id = :userId")
+    List<Review> findAllByUserId(Long userId);
+    @Query("select r from Review r where r.parking.code = :parkingCode")
+    Review findByParkingCode(@Param("parkingCode") String parkingCode);
 
-    @Query("select r from Review r where r.parking.parkingid = :parkingid")
-    List<Review> findReviewsByPid(@Param("parkingid") Long parkingid);
-
-    @Query("select r from Review r where r.user.userid = :userid")
-    List<Review> findReviewsByUid(@Param("userid") Long userid);
-
-    @Query("select r from Review r where r.reviewid = :reviewid")
-    Review findOne(@Param("reviewid") Long reviewid);
-
-    @Query("select r from Review r where r.user.userid = :userid")
-    List<Review> findByUid(@Param("userid") Long userid);
-
-    @Query("select r from Review r where r.parking.PARKING_CODE = :parkingCode")
-    Review findByPCode(@Param("parkingCode") String parkingCode);
-
-    @Query("select r from Review r where r.user.userid = :userid and r.parking.PARKING_CODE = :parkingcode")
+    @Query("select r from Review r where r.user.id = :userid and r.parking.code = :parkingcode")
     List<Review> findByUidPid(@Param("userid") Long userId, @Param("parkingcode") String parkingcode);
 
-    @Query("select avg(r.starScore) from Parking p, Review r where r.parking.parkingid=:parkingid")
+    @Query("select avg(r.starScore) from Parking p, Review r where r.parking.id=:parkingid")
     int getAvgScoreFromReviewsOfThisParking(@Param("parkingid") Long parkingid);
 
-    @Query("select count(r) from Review r where r.parking.parkingid=:parkingid")
+    @Query("select count(r) from Review r where r.parking.id=:parkingid")
     int getReviewCountOfThisParking(@Param("parkingid") Long parkingid);
 
 

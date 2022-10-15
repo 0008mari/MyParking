@@ -19,7 +19,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // security 에서 제공하는  User 말고 그냥 domain User 로 사용
 
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findByUsernameContaining(username);
         CustomUserDetails userDetails = null;
         if (user != null) {
             userDetails = new CustomUserDetails();
