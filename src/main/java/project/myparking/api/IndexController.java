@@ -25,7 +25,7 @@ import project.myparking.util.DBInit;
 @RequestMapping("/initialize")
 public class IndexController {
 
-    private ParkingService parkingService;
+    private final ParkingService parkingService;
     Logger logger = LoggerFactory.getLogger(ParkingApiController.class);
     private final HttpSession httpSession;
 
@@ -40,24 +40,17 @@ public class IndexController {
 
         List<Parking> dataList = new ArrayList<>();
 
-        // openApi pull
-        if (parkingService.checkParkingCnt() == 0) {
+        if (parkingService.checkIfEmpty()) {
             logger.info("ParkingApiController insert parkinglots() ");
             try {
                 dataList = DBInit.run();
                 parkingService.insertParkings(dataList);    // 전부 insert
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            map.put("msg", "Parkinglot Data: FIRST TIME CREATED");
-
-        } else {
-            logger.info("database already exists NO NEED to refresh");
-            map.put("msg", "Parkinglot Data: ALREADY EXISTS");
+            return CustomResponse.CommonResponse(HttpStatus.CREATED, true, "최초접근: DB 생성 성공");
         }
-        return CustomResponse.CommonResponse(HttpStatus.OK, true,
-            "초기 DB 생성 여부 반환 성공", map);
+        return CustomResponse.CommonResponse(HttpStatus.OK, true, "DB 생성 불필요");
     }
 
 }

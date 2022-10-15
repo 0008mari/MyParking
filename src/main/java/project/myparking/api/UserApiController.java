@@ -4,9 +4,14 @@ import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-//import project.myparking.config.auth.dto.SessionUser;
+import project.myparking.config.auth.dto.SessionUser;
+import project.myparking.error.exception.NoUserException;
+import project.myparking.global.api.CustomResponse;
 import project.myparking.repository.UserRepository;
 
 @RequiredArgsConstructor
@@ -19,20 +24,22 @@ public class UserApiController {
     Logger logger = LoggerFactory.getLogger(UserApiController.class);
     private final HttpSession httpSession;
 
-//    @GetMapping(value="/user/info")
-//    public SessionUser loggedinUser() {
-//
-//        logger.info("UserApiController loggedinUser() ");
-//
-//        if( httpSession.getAttribute("user") != null ){
-//            return (SessionUser) httpSession.getAttribute("user");
-//        }
-//        else{
-//            return null;
-//        }
-//    }
+    @GetMapping(value="/user/{userId}")
+    public ResponseEntity<CustomResponse> userInfo(@PathVariable Long userId) {
 
+        logger.info("UserApiController userInfo() ");
 
+        // TODO: 로직 수정
+        Object data = null;
+        String msg = null;
+        userRepository.findById(userId).orElseThrow(() -> new NoUserException());
+
+        if( httpSession.getAttribute("user") != null ){
+            data = (SessionUser) httpSession.getAttribute("user");
+        }
+        return CustomResponse.CommonResponse(HttpStatus.CREATED, true,
+            "사용자 정보 조회 성공", data);
+    }
 
 //    @PostMapping(value="/admin/signup",
 ////            consumes = {"application/x-www-form-urlencoded"} ,
@@ -119,36 +126,6 @@ public class UserApiController {
 //        }
 //    }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
-//    @Autowired
-//    SampleService sampleService;
-//
-//        @PostMapping(value = "signup", produces = MediaType.APPLICATION_JSON_VALUE)
-//    public String signup(@RequestBody com.example.securityspring.dto.SigninDto request) {
-//        return authService.signup(request);
-//    }
-//
-//    @PostMapping(value = "login", produces = MediaType.APPLICATION_JSON_VALUE)
-//    public String login(@RequestBody JwtRequestDto request) {
-//        return "login";
-//    }
-//
-//    @PostMapping(value = "signup", produces = MediaType.APPLICATION_JSON_VALUE)
-//    public String signup(@RequestBody com.example.securityspring.dto.SigninDto request) {
-//        return "signup";
-//    }
-
-//    @GetMapping("/login")
-//    public String loginForm() {
-//        return "login";
-//    }
-//
-//    @GetMapping("/logout")
-//    public String logoutForm() {
-//        return "logout";
-//    }
-
-
 //    @GetMapping("/")
 //    public String index(Model model, Principal principal) {
 //        if (principal == null) {
@@ -158,52 +135,5 @@ public class UserApiController {
 //        }
 //
 //        return "index";
-//    }
-//
-//    @GetMapping("/info")
-//    public String info(Model model) {
-//        model.addAttribute("message", "Info");
-//        return "info";
-//    }
-//
-//    @GetMapping("/dashboard")
-//    public String dashboard(Model model, Principal principal) {
-//        model.addAttribute("message", "Hello, " + principal.getName());
-//        sampleService.dashboard();
-//        return "dashboard";
-//    }
-//
-//    @GetMapping("/admin")
-//    public String admin(Model model, Principal principal) {
-//        model.addAttribute("message", "Hello Admin, " + principal.getName());
-//        return "admin";
-//    }
-//
-//    @GetMapping("/user")
-//    public String user(Model model, Principal principal) {
-//        model.addAttribute("message", "Hello User, " + principal.getName());
-//        return "user";
-//    }
-//
-//    @GetMapping("/async-handler")
-//    @ResponseBody
-//    public Callable<String> asyncHandler() {
-//        SecurityLogger.log("MVC");
-//        return new Callable<String>() {
-//            @Override
-//            public String call() throws Exception {
-//                SecurityLogger.log("Callable");
-//                return "Async Handler";
-//            }
-//        };
-//    }
-//
-//    @GetMapping("/async-service")
-//    @ResponseBody
-//    public String asyncService() {
-//        SecurityLogger.log("MVC, before async service");
-//        sampleService.asyncService();
-//        SecurityLogger.log("MVC, after async service");
-//        return "Async Service";
 //    }
 }

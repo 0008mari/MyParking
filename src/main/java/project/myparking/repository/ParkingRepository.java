@@ -9,6 +9,5 @@ import java.util.List;
 
 public interface ParkingRepository extends JpaRepository<Parking, Long> {
 
-    // Long count();
     List<Parking> findAllByAddressContaining(String address);
 }

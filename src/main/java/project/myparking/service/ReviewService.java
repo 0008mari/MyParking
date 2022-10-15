@@ -11,7 +11,10 @@ import project.myparking.domain.Review;
 import project.myparking.domain.User;
 import project.myparking.dto.ReviewDto;
 import project.myparking.dto.ReviewUpdateDto;
-import project.myparking.global.exception.NoDataException;
+import project.myparking.error.exception.NoDataException;
+import project.myparking.error.exception.NoParkingException;
+import project.myparking.error.exception.NoReviewException;
+import project.myparking.error.exception.NoUserException;
 import project.myparking.repository.ParkingRepository;
 import project.myparking.repository.ReviewRepository;
 import project.myparking.repository.UserRepository;
@@ -28,8 +31,8 @@ public class ReviewService {
     public Review addReview(@NotNull ReviewDto dto) {
 
         // 엔티티 조회
-        Parking parking = parkingRepository.findById(dto.getParkingId()).orElseThrow(() -> new NoDataException());
-        User user = userRepository.findById(dto.getUserId()).orElseThrow(() -> new NoDataException());
+        Parking parking = parkingRepository.findById(dto.getParkingId()).orElseThrow(() -> new NoParkingException());
+        User user = userRepository.findById(dto.getUserId()).orElseThrow(() -> new NoUserException());
 
         // 리뷰 생성
         Review review = new Review();
@@ -47,7 +50,7 @@ public class ReviewService {
 
     @Transactional
     public void update(Long reviewId, ReviewUpdateDto dto) {
-        Review review = reviewRepository.findById(reviewId).orElseThrow(() -> new NoDataException());
+        Review review = reviewRepository.findById(reviewId).orElseThrow(() -> new NoReviewException());
 
         review.setEvalSpace(dto.getEvalSpace());
         review.setEvalParkinglevel(dto.getEvalParkinglevel());
@@ -61,7 +64,7 @@ public class ReviewService {
 
     @Transactional
     public void delete (Long reviewId) {
-        Review review = reviewRepository.findById(reviewId).orElseThrow(() -> new NoDataException());
+        Review review = reviewRepository.findById(reviewId).orElseThrow(() -> new NoReviewException());
         reviewRepository.delete(review);
     }
 
@@ -80,11 +83,11 @@ public class ReviewService {
                 .collect(Collectors.toList());
     }
     public User getReviewWriter(Long reviewId){
-        return reviewRepository.findById(reviewId).orElseThrow(()-> new NoDataException()).getUser();
+        return reviewRepository.findById(reviewId).orElseThrow(()-> new NoReviewException()).getUser();
     }
 
     public ReviewDto getReviewById(Long reviewId){
-        Review review = reviewRepository.findById(reviewId).orElseThrow(() -> new NoDataException());
+        Review review = reviewRepository.findById(reviewId).orElseThrow(() -> new NoReviewException());
         return new ReviewDto(review);
     }
 
