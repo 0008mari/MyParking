@@ -9,22 +9,29 @@ const data = [
   { title: "별점", select: [] },
 ];
 
-function ReviewList() {
+function ReviewList({ onClick, onChange }) {
   return (
     <>
       <List
         bordered
         dataSource={data}
         style={{ width: "400px" }}
-        renderItem={(item) => (
-          <List.Item style={{ padding: "20px" }}>
+        renderItem={(item, index) => (
+          <List.Item key={item.title} style={{ padding: "20px" }}>
             <Col>
               <div style={{ marginBottom: "10px" }}>{item.title}</div>
               <Radio.Group size="large">
                 {item.select.map((selectBtn) => (
-                  <Radio.Button value={selectBtn}>{selectBtn}</Radio.Button>
+                  <Radio.Button
+                    value={selectBtn}
+                    onClick={(e) => onClick(e, index)}
+                  >
+                    {selectBtn}
+                  </Radio.Button>
                 ))}
-                {item.select.length === 0 && <Rate />}
+                {item.select.length === 0 && (
+                  <Rate onChange={(value) => onChange(value)} />
+                )}
               </Radio.Group>
             </Col>
           </List.Item>
