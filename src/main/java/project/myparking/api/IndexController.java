@@ -13,8 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import project.myparking.config.auth.LoginUser;
-import project.myparking.config.auth.dto.SessionUser;
+//import project.myparking.config.auth.LoginUser;
+//import project.myparking.config.auth.dto.SessionUser;
 import project.myparking.domain.Parking;
 import project.myparking.global.api.CustomResponse;
 import project.myparking.service.ParkingService;
@@ -32,7 +32,8 @@ public class IndexController {
     @GetMapping
     @Operation(summary = "메인화면 최초 접속 이전에 DB 1회 생성 (DB는 서버를 올릴때 한번만 땡겨온다)" +
         "session 에 로그인 되어있는 사용자가 있는지도 확인하여 있으면 User 를 반환" )
-    public ResponseEntity<CustomResponse> initDB(@LoginUser SessionUser user) {
+//    public ResponseEntity<CustomResponse> initDB(@LoginUser SessionUser user) {
+    public ResponseEntity<CustomResponse> initDB() {
 
         HashMap<String, Object> map = new HashMap<>();
         logger.info("ParkingApiController initDB() ");

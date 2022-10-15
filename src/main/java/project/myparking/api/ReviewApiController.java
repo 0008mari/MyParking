@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import project.myparking.config.auth.LoginUser;
-import project.myparking.config.auth.dto.SessionUser;
+//import project.myparking.config.auth.LoginUser;
+//import project.myparking.config.auth.dto.SessionUser;
 import project.myparking.domain.Review;
 import project.myparking.domain.User;
 import project.myparking.dto.ReviewDto;
@@ -104,17 +104,19 @@ public class ReviewApiController {
 //
     @DeleteMapping("/reviews/{reviewid}")
     @Operation(summary = "리뷰 삭제")
-    public ResponseEntity<CustomResponse> deleteReview (@PathVariable Long reviewId, HttpServletRequest req, @LoginUser SessionUser loginuser) {
+//    public ResponseEntity<CustomResponse> deleteReview (@PathVariable Long reviewId, HttpServletRequest req, @LoginUser SessionUser loginuser) {
+    public ResponseEntity<CustomResponse> deleteReview (@PathVariable Long reviewId, HttpServletRequest req) {
+
         User user = reviewService.getReviewWriter(reviewId);
 
         // 내가 작성한 리뷰일 경우에만 리뷰 삭제
-        if(user.getEmail() == loginuser.getEmail()){
+//        if(user.getEmail() == loginuser.getEmail()){
             reviewService.delete(reviewId);
             return CustomResponse.CommonResponse(HttpStatus.OK, true,
                 "리뷰 삭제 성공", reviewId);
-        } else {
-            return CustomResponse.CommonResponse(HttpStatus.BAD_REQUEST, false, "리뷰 삭제 실패");
-        }
+//        } else {
+//            return CustomResponse.CommonResponse(HttpStatus.BAD_REQUEST, false, "리뷰 삭제 실패");
+//        }
     }
 
 }

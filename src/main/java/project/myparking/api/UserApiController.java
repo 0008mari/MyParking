@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import project.myparking.config.auth.dto.SessionUser;
+//import project.myparking.config.auth.dto.SessionUser;
 import project.myparking.repository.UserRepository;
 
 @RequiredArgsConstructor
@@ -19,18 +19,18 @@ public class UserApiController {
     Logger logger = LoggerFactory.getLogger(UserApiController.class);
     private final HttpSession httpSession;
 
-    @GetMapping(value="/user/info")
-    public SessionUser loggedinUser() {
-
-        logger.info("UserApiController loggedinUser() ");
-
-        if( httpSession.getAttribute("user") != null ){
-            return (SessionUser) httpSession.getAttribute("user");
-        }
-        else{
-            return null;
-        }
-    }
+//    @GetMapping(value="/user/info")
+//    public SessionUser loggedinUser() {
+//
+//        logger.info("UserApiController loggedinUser() ");
+//
+//        if( httpSession.getAttribute("user") != null ){
+//            return (SessionUser) httpSession.getAttribute("user");
+//        }
+//        else{
+//            return null;
+//        }
+//    }
 
 
 
