@@ -20,10 +20,9 @@ import javax.servlet.http.HttpSession;
 @RequiredArgsConstructor
 @RestController
 public class UserApiController {
-//    @Autowired
-     private final UserRepository userRepository;
-//    @Autowired
-//    private BCryptPasswordEncoder passwordEncoder;
+
+    private final UserRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     Logger logger = LoggerFactory.getLogger(UserApiController.class);
     private final HttpSession httpSession;

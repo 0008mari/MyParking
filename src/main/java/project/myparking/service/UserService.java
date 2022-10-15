@@ -1,21 +1,20 @@
-//package project.myparking.service;
-//
-//import lombok.RequiredArgsConstructor;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Service;
-//import org.springframework.transaction.annotation.Transactional;
-//import project.myparking.domain.User;
-//import project.myparking.repository.UserRepository;
-//
-//import java.util.List;
-//
-//@RequiredArgsConstructor
-//@Service
-//@Transactional(readOnly = true) // 성능향상
-//public class UserService {
-//
-//    // 필드 주입 대신 생성자 주입
-//    private final UserRepository userRepository;
+package project.myparking.service;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import project.myparking.domain.User;
+import project.myparking.repository.UserRepository;
+
+import java.util.List;
+
+@RequiredArgsConstructor
+@Service
+@Transactional(readOnly = true) // 성능향상
+public class UserService {
+
+    private final UserRepository userRepository;
 //
 //    /**
 //     * 회원가입
@@ -48,4 +47,4 @@
 //    public User findOne(Long userId) {
 //        return userRepository.findOne(userId);
 //    }
-//}
+}

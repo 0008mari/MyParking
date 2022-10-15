@@ -5,10 +5,13 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.myparking.config.auth.LoginUser;
 import project.myparking.config.auth.dto.SessionUser;
 import project.myparking.domain.User;
+import project.myparking.global.api.CustomResponse;
 import project.myparking.service.ReviewService;
 import project.myparking.dto.ReviewDto;
 import project.myparking.dto.ReviewUpdateDto;
@@ -21,7 +24,6 @@ import java.util.List;
 public class ReviewApiController {
 
     private final ReviewService reviewService;
-
     /**
      * API CONTROLLER 에서는 ENTITY 주고받지 마시오
      * V1. 엔티티 직접 노출
@@ -30,23 +32,22 @@ public class ReviewApiController {
      * - 양방향 관계 문제 발생 -> @JsonIgnore
      */
 
-
-    @Operation(summary = "parkingid 값을 가지는 주차장의 리뷰의 정보 출력")
-    @GetMapping("/parkings/{parkingid}/reviews")
-    public List<ReviewDto> allReviewsByParkingId(@PathVariable Long parkingId) {
-        return reviewService.findReviewsByParkingId(parkingId);
+    @GetMapping("/parkings/reviews/{parkingId}")
+    public ResponseEntity<CustomResponse> allReviewsByParkingId(@PathVariable Long parkingId) {
+        return CustomResponse.CommonResponse(HttpStatus.OK, true,
+            "주차장ID 로 해당 주차장에 작성된 리뷰 출력 성공", reviewService.findReviewsByParkingId(parkingId));
     }
 
-    @Operation(summary = "reviewid로 리뷰 찾기")
     @GetMapping("/reviews/{reviewid}")
-    public ReviewDto findOne(@PathVariable Long reviewid) {
-        return reviewService.findOne(reviewid);
+    public ResponseEntity<CustomResponse> getReviewById(@PathVariable Long reviewId) {
+        return CustomResponse.CommonResponse(HttpStatus.OK, true,
+            "리뷰ID 로 작성된 리뷰 출력 성공", reviewService.findOne(reviewId));
     }
 
-    @Operation(summary = "userid 로 리뷰 찾기")
     @GetMapping("/reviews")
-    public List<ReviewDto> allReviewsByUid(@RequestParam Long userid) {
-        return reviewService.getReviewsByUid(userid);
+    public ResponseEntity<CustomResponse> getAllReviewsByUserId(@RequestParam Long userId) {
+        return CustomResponse.CommonResponse(HttpStatus.OK, true,
+        "사용자ID 로 작성된 리뷰 출력 성공", reviewService.getReviewsByUid(userId));
     }
 //
 //    @PostMapping("/reviews/new")

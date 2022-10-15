@@ -5,10 +5,13 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.myparking.config.auth.LoginUser;
 import project.myparking.config.auth.dto.SessionUser;
 import project.myparking.domain.Parking;
+import project.myparking.global.api.CustomResponse;
 import project.myparking.service.ParkingService;
 import project.myparking.util.DBInit;
 import project.myparking.dto.ParkingLongDto;
@@ -26,15 +29,14 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 @RequestMapping
 public class ParkingApiController {
 
-    @Autowired
     private ParkingService parkingService;
     Logger logger = LoggerFactory.getLogger(ParkingApiController.class);
     private final HttpSession httpSession;
 
-    @GetMapping("")
+    @GetMapping("/initialize")
     @Operation(summary = "메인화면 최초 접속 이전에 DB 1회 생성 (DB는 서버를 올릴때 한번만 땡겨온다)" +
             "session 에 로그인 되어있는 사용자가 있는지도 확인하여 있으면 User 를 반환" )
-    public HashMap<String, Object> initDB(@LoginUser SessionUser user) {
+    public ResponseEntity<CustomResponse> initDB(@LoginUser SessionUser user) {
 
         HashMap<String, Object> map = new HashMap<>();
         logger.info("ParkingApiController initDB() ");
@@ -46,12 +48,6 @@ public class ParkingApiController {
             logger.info("ParkingApiController insert parkinglots() ");
             try {
                 dataList = DBInit.run();
-                System.out.println(dataList.size());
-//                /** product table insert data */
-//                for (int i = 0; i < dataList.size(); i++) {
-//                    parkingService.insertOneParking(dataList.get(i));
-//                    System.out.println(i + " : " + productList.get(i).toString());
-//                }
                 parkingService.insertParkings(dataList);    // 전부 insert
 
             } catch (Exception e) {
@@ -63,37 +59,30 @@ public class ParkingApiController {
             logger.info("database already exists NO NEED to refresh");
             map.put("msg", "Parkinglot Data: ALREADY EXISTS");
         }
-
-//        SessionUser user = (SessionUser) httpSession.getAttribute("user");  // => annotation 으로 대체
-        if (user != null) {
-            map.put("user", user.getName());
-        }
-        else {
-            map.put("user", null);
-        }
-
-        return map;
+        return CustomResponse.CommonResponse(HttpStatus.OK, true,
+            "초기 DB 생성 여부 반환 성공", map);
     }
 
     @Operation(summary = "MAIN PAGE 메인 화면에서는 DB 속의 주차장 전체 목록 출력")
-    @GetMapping("/parkings/all")
-    public List<ParkingLongDto> findAll() {
-        return parkingService.getAll();
+    @GetMapping("/parking/list")
+    public ResponseEntity<CustomResponse> findAll() {
+        return CustomResponse.CommonResponse(HttpStatus.OK, true,
+            "초기 DB 생성 여부 반환 성공", parkingService.getAll());
     }
 
     // 원래 get 인데 충돌나서 post 로 잠시 변경
     @Operation(summary = "입력한 동네의 주차장 출력")
-    @GetMapping("/parkings")
-    public List<ParkingShortDto> getParkingByAddress(@RequestParam String address) {
-        return parkingService.findByAddress(address);
+    @GetMapping("/parking")
+    public ResponseEntity<CustomResponse> getParkingByAddress(@RequestParam String address) {
+        return CustomResponse.CommonResponse(HttpStatus.OK, true,
+            "초기 DB 생성 여부 반환 성공", parkingService.findByAddress(address));
     }
 
     @Operation(summary = "id값을 가진 주차장 반환")
     @GetMapping("/parkings/{parkingid}")
-    public ParkingShortDto getParkingById(@PathVariable Long parkingid) {
-        return parkingService.getParkingById(parkingid);
+    public ResponseEntity<CustomResponse> getParkingById(@PathVariable Long parkingid) {
+        return CustomResponse.CommonResponse(HttpStatus.OK, true,
+            "초기 DB 생성 여부 반환 성공", parkingService.getParkingById(parkingid));
     }
-
-
 
 }
