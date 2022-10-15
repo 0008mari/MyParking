@@ -1,4 +1,4 @@
-package project.myparking.global.exception;
+package project.myparking.error.exception;
 
 import org.springframework.http.HttpStatus;
 
