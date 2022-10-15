@@ -1,15 +1,9 @@
 package project.myparking.config.auth.dto;
 
 import lombok.Getter;
-import org.springframework.beans.factory.annotation.Autowired;
-import project.myparking.domain.Review;
 import project.myparking.domain.User;
-import project.myparking.repository.ReviewRepository;
-import project.myparking.web.dto.ReviewDto;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * SessionUser 에는 인증된 사용자 정보만 필요
