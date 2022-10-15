@@ -1,4 +1,4 @@
-package project.myparking.web.dto;
+package project.myparking.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,10 +11,10 @@ public class ParkingShortDto {
     private int reviewCount;
     private String address;
 
-    public ParkingShortDto(Parking entity) {
-        this.name = entity.getPARKING_NAME();
-        this.reviewStarAvg = entity.getAvgScore();
-        this.reviewCount = entity.getReviewCount();
-        this.address = entity.getADDR();
+    public ParkingShortDto(Parking parking) {
+        this.name = parking.getName();
+        this.reviewStarAvg = parking.getStarAvg();
+        this.reviewCount = parking.getReviews().size();
+        this.address = parking.getAddress();
     }
 }

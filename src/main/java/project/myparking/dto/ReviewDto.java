@@ -1,11 +1,15 @@
-package project.myparking.web.dto;
+package project.myparking.dto;
 
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import project.myparking.domain.*;
+import project.myparking.enumtype.EvalCostefficient;
+import project.myparking.enumtype.EvalParkinglevel;
+import project.myparking.enumtype.EvalRevisit;
+import project.myparking.enumtype.EvalSpace;
+import project.myparking.enumtype.EvalStaff;
 
 @Data
 @AllArgsConstructor
@@ -24,8 +28,8 @@ public class ReviewDto {
 
     /* Review Entity to ReviewDto */
     public ReviewDto(Review review) {
-        userid = review.getUser().getUserid();
-        parkingid = review.getParking().getParkingid();
+        userid = review.getUser().getId();
+        parkingid = review.getParking().getId();
         evalSpace = review.getEvalSpace();
         evalCostefficient = review.getEvalCostefficient();
         evalStaff = review.getEvalStaff();

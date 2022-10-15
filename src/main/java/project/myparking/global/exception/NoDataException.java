@@ -9,6 +9,6 @@ public class NoDataException extends CustomException{
     }
 
     public NoDataException() {
-        super(HttpStatus.BAD_REQUEST, "데이터가 없습니다.");
+        super(HttpStatus.NOT_FOUND, "조회되는 데이터가 없습니다.");
     }
 }

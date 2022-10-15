@@ -1,4 +1,4 @@
-package project.myparking.web.dto;
+package project.myparking.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,8 +6,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import project.myparking.domain.*;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import project.myparking.enumtype.EvalCostefficient;
+import project.myparking.enumtype.EvalParkinglevel;
+import project.myparking.enumtype.EvalRevisit;
+import project.myparking.enumtype.EvalSpace;
+import project.myparking.enumtype.EvalStaff;
 
 @Getter
 @NoArgsConstructor

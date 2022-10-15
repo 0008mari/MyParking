@@ -4,11 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.myparking.domain.Parking;
-import project.myparking.domain.Review;
+import project.myparking.global.exception.NoDataException;
 import project.myparking.repository.ParkingRepository;
-import project.myparking.web.dto.ParkingLongDto;
-import project.myparking.web.dto.ParkingShortDto;
-import project.myparking.web.dto.ReviewDto;
+import project.myparking.dto.ParkingLongDto;
+import project.myparking.dto.ParkingShortDto;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,57 +17,38 @@ import java.util.stream.Collectors;
 public class ParkingService {
     private final ParkingRepository parkingRepository;
 
-    public int checkDB() {
-        return parkingRepository.checkDB();
+    public Long checkParkingCnt() {
+        return parkingRepository.count();
     }
 
-    public void DBInit(List<Parking> parkingList) {
-//        int chk = 0;
-//        for(int i=0; i<cnt; i++){
-//            parkingRepository.insertOne();
-//        }
-//        return chk;
+    public void insertParkings(List<Parking> parkingList) {
         parkingRepository.saveAll(parkingList);
     }
 
-
     @Transactional(readOnly = true)
     public List<ParkingShortDto> findByAddress(String address) {
-        List<Parking> list = parkingRepository.findByAddress(address);
-        if (list.isEmpty()) new IllegalArgumentException(address + " 지역의 주차장은 없습니다.\n");
+        List<Parking> list = parkingRepository.findAllByAddressContaining(address);
+        if (list.isEmpty()) throw new NoDataException();
 
-        // parkingRepository 결과로 넘어온 Parking의 stream을 map을 통해 List로 반환
         return list.stream()
                 .map(ParkingShortDto::new)
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public List<ParkingLongDto> findAll() {
+    public List<ParkingLongDto> getAll() {
         List<Parking> list = parkingRepository.findAll();
 
         return list.stream()
                 .map(ParkingLongDto::new)
                 .collect(Collectors.toList());
-
-        // Converting Entity to DTO
-//        if(list.isEmpty()) new IllegalArgumentException("주차장 DB 먼저 생성해주세요!!\n");
-//        // parkingRepository 결과로 넘어온 Parking의 stream을 map을 통해 List<ParkingResponseComplex>로 반환
     }
 
     @Transactional(readOnly = true)
-    public ParkingShortDto getParkingById(Long parkingid) {
-        Parking p = parkingRepository.findOne(parkingid);
+    public ParkingShortDto getParkingById(Long parkingId) {
+        Parking parking = parkingRepository.findById(parkingId).orElseThrow(()-> new NoDataException());
 
-        ParkingShortDto pShortDto = new ParkingShortDto(
-                p.getPARKING_NAME(),
-                p.getAvgScore(),
-                p.getReviewCount(),
-                p.getADDR()
-        );
-        return pShortDto;
-        //        return list.stream()
-//                .map(ParkingShortDto::new)
+        return new ParkingShortDto(parking.getName(), parking.getStarAvg(), parking.getReviews().size(), parking.getAddress());
     }
 }
 

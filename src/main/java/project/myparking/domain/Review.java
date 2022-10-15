@@ -2,6 +2,11 @@ package project.myparking.domain;
 
 import lombok.*;
 import javax.persistence.*;
+import project.myparking.enumtype.EvalCostefficient;
+import project.myparking.enumtype.EvalParkinglevel;
+import project.myparking.enumtype.EvalRevisit;
+import project.myparking.enumtype.EvalSpace;
+import project.myparking.enumtype.EvalStaff;
 
 @Entity
 @Table(name = "reviews")
@@ -11,7 +16,7 @@ public class Review extends BaseTimeEntity {
 
     @Id @Column(name = "review_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long reviewid;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parking_id")
@@ -22,7 +27,7 @@ public class Review extends BaseTimeEntity {
     private User user;
 
 //    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn//(name = "KID")
+//    @JoinColumn//(name = "keyword_id")
 //    private Keyword keyword;
 
     @Enumerated(EnumType.STRING)
