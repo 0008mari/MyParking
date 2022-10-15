@@ -10,18 +10,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import project.myparking.domain.Role;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 @RequiredArgsConstructor
 @Configuration
@@ -73,57 +63,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        //                .csrf().disable().headers().frameOptions().disable()
+//                .csrf().disable().headers().frameOptions().disable()
 //                .and()
 
-        http
-                .authorizeRequests()
-                .antMatchers("/parkings/**", "/", "/login").permitAll()
-                .antMatchers("/reviews/**").hasRole(Role.USER.name())
-                .antMatchers("/admin").hasRole(Role.ADMIN.name())  // /admin 요청에 대해서는 Role이 ADMIN인 사용자만 허용
-
-                .anyRequest().authenticated()
-                /*
-                .and()
-                    .formLogin()
-//                    .loginPage("/login.html") // 사용자 정의 로그인 페이지
-                    .defaultSuccessUrl("/parkings/all") // 로그인 성공 후 이동 페이지
-                    .failureUrl("/login.html?error=true") // 로그인 실패 후 이동 페이지
-                    .usernameParameter("username") // 아이디 파라미터명 설정
-                    .passwordParameter("password") // 패스워드 파라미터명 설정
-                    .loginProcessingUrl("/login") // 로그인 Form Action url
-//                .successHandler(loginSuccessHandler()) // 로그인 성공 후 핸들러
-//                .failureHandler(loginFailureHandler()) // 로그인 실패 후 핸들러
-                    .successHandler(
-                        new AuthenticationSuccessHandler() {
-                            @Override
-                            public void onAuthenticationSuccess(HttpServletRequest request,
-                                                                HttpServletResponse response,
-                                                                Authentication authentication)
-                                    throws IOException, ServletException {
-                                System.out.println("authentication : " + authentication.getName());
-                                response.sendRedirect("/"); // 인증이 성공한 후에는 root로 이동
-                            }
-                        }
-                )
-                .failureHandler(
-                        new AuthenticationFailureHandler() {
-                            @Override
-                            public void onAuthenticationFailure(HttpServletRequest request,
-                                                                HttpServletResponse response,
-                                                                AuthenticationException exception)
-                                    throws IOException, ServletException {
-                                System.out.println("exception : " + exception.getMessage());
-                                response.sendRedirect("/login");
-                            }
-                        }
-                )
-                */
-                .and()
-                    .logout().logoutSuccessUrl("/")
-                .and()
-                    .oauth2Login()
-                    .userInfoEndpoint()
-                    .userService(customOAuth2UserService);
+//        http
+//                .authorizeRequests()
+//                .antMatchers("/parkings/**", "/", "/login").permitAll()
+//                .antMatchers("/reviews/**").hasRole(Role.USER.name())
+//                .antMatchers("/admin").hasRole(Role.ADMIN.name())  // /admin 요청에 대해서는 Role이 ADMIN인 사용자만 허용
+//
+//                .anyRequest().authenticated()
+//                .and()
+//                    .logout().logoutSuccessUrl("/")
+//                .and()
+//                    .oauth2Login()
+//                    .userInfoEndpoint()
+//                    .userService(customOAuth2UserService);
         }
 }
