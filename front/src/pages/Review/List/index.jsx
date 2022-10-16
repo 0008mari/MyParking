@@ -23,6 +23,7 @@ function ReviewList({ onClick, onChange }) {
               <Radio.Group size="large">
                 {item.select.map((selectBtn) => (
                   <Radio.Button
+                    key={selectBtn}
                     value={selectBtn}
                     onClick={(e) => onClick(e, index)}
                   >
