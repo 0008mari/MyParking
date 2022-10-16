@@ -9,8 +9,14 @@ import org.springframework.transaction.annotation.Transactional;
 import project.myparking.domain.Parking;
 import project.myparking.domain.Review;
 import project.myparking.domain.User;
-import project.myparking.dto.ReviewDto;
+import project.myparking.dto.ReviewRequestDto;
+import project.myparking.dto.ReviewResponseDto;
 import project.myparking.dto.ReviewUpdateDto;
+import project.myparking.enumtype.EvalCostefficient;
+import project.myparking.enumtype.EvalParkinglevel;
+import project.myparking.enumtype.EvalRevisit;
+import project.myparking.enumtype.EvalSpace;
+import project.myparking.enumtype.EvalStaff;
 import project.myparking.error.exception.NoDataException;
 import project.myparking.error.exception.NoParkingException;
 import project.myparking.error.exception.NoReviewException;
@@ -28,7 +34,7 @@ public class ReviewService {
     private final ParkingRepository parkingRepository;
 
     @Transactional
-    public Review addReview(@NotNull ReviewDto dto) {
+    public Review addReview(@NotNull ReviewRequestDto dto) {
 
         // 엔티티 조회
         Parking parking = parkingRepository.findById(dto.getParkingId()).orElseThrow(() -> new NoParkingException());
@@ -38,11 +44,12 @@ public class ReviewService {
         Review review = new Review();
         review.setParking(parking);
         review.setUser(user);
-        review.setEvalStaff(dto.getEvalStaff());
-        review.setEvalSpace(dto.getEvalSpace());
-        review.setEvalCostefficient(dto.getEvalCostefficient());
-        review.setEvalRevisit(dto.getEvalRevisit());
-        review.setEvalParkinglevel(dto.getEvalParkinglevel());
+        review.setEvalStaff(EvalStaff.returnEnumByValue(dto.getEvalStaff()));
+        review.setEvalSpace(EvalSpace.returnEnumByValue(dto.getEvalSpace()));
+        review.setEvalCostefficient(
+            EvalCostefficient.returnEnumByValue(dto.getEvalCostefficient()));
+        review.setEvalRevisit(EvalRevisit.returnEnumByValue(dto.getEvalRevisit()));
+        review.setEvalParkinglevel(EvalParkinglevel.returnEnumByValue(dto.getEvalParkinglevel()));
         review.setStarScore(dto.getStarScore());
 
         return reviewRepository.save(review);
@@ -68,36 +75,36 @@ public class ReviewService {
         reviewRepository.delete(review);
     }
 
-    public ReviewDto getReviewByParkingCode(String parkingCode) {
+    public ReviewResponseDto getReviewByParkingCode(String parkingCode) {
         Review review = reviewRepository.findByParkingCode(parkingCode);
-        return new ReviewDto(review);
+        return new ReviewResponseDto(review);
     }
 
-    public List<ReviewDto> getReviewsByParkingId(Long parkingId){
+    public List<ReviewResponseDto> getReviewsByParkingId(Long parkingId){
         List<Review> reviewList = reviewRepository.findAllByParkingId(parkingId);
         if (reviewList.isEmpty()) {
             throw new NoDataException();
         }
         return reviewList.stream()
-                .map(ReviewDto::new)
+                .map(ReviewResponseDto::new)
                 .collect(Collectors.toList());
     }
     public User getReviewWriter(Long reviewId){
         return reviewRepository.findById(reviewId).orElseThrow(()-> new NoReviewException()).getUser();
     }
 
-    public ReviewDto getReviewById(Long reviewId){
+    public ReviewResponseDto getReviewById(Long reviewId){
         Review review = reviewRepository.findById(reviewId).orElseThrow(() -> new NoReviewException());
-        return new ReviewDto(review);
+        return new ReviewResponseDto(review);
     }
 
-    public List<ReviewDto> getReviewsByUserId(Long userId) {
+    public List<ReviewResponseDto> getReviewsByUserId(Long userId) {
         List<Review> reviewList = reviewRepository.findAllByUserId(userId);
         if (reviewList.isEmpty()) {
             throw new NoDataException();
         }
         return reviewList.stream()
-                .map(ReviewDto::new)
+                .map(ReviewResponseDto::new)
                 .collect(Collectors.toList());
     }
 }

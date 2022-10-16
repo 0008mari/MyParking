@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import project.myparking.domain.Parking;
 import project.myparking.dto.ParkingLongDto;
 import project.myparking.dto.ParkingShortDto;
-import project.myparking.global.exception.NoDataException;
+import project.myparking.error.exception.NoDataException;
 import project.myparking.repository.ParkingRepository;
 
 @RequiredArgsConstructor
@@ -16,8 +16,11 @@ import project.myparking.repository.ParkingRepository;
 public class ParkingService {
     private final ParkingRepository parkingRepository;
 
-    public Long checkParkingCnt() {
-        return parkingRepository.count();
+    public boolean checkIfEmpty() {
+        if(parkingRepository.count() == 0L){
+            return true;
+        }
+        return false;
     }
 
     public void insertParkings(List<Parking> parkingList) {
@@ -46,8 +49,7 @@ public class ParkingService {
     @Transactional(readOnly = true)
     public ParkingShortDto getParkingById(Long parkingId) {
         Parking parking = parkingRepository.findById(parkingId).orElseThrow(()-> new NoDataException());
-
-        return new ParkingShortDto(parking.getName(), parking.getStarAvg(), parking.getReviews().size(), parking.getAddress());
+        return new ParkingShortDto(parking.getName(), parking.getStarAvg(), parking.getReviewCnt(), parking.getAddress());
     }
 }
 

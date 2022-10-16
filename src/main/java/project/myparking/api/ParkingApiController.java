@@ -1,7 +1,6 @@
 package project.myparking.api;
 
 import io.swagger.v3.oas.annotations.Operation;
-import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,28 +19,27 @@ import project.myparking.service.ParkingService;
 @RequestMapping("/parkings")
 public class ParkingApiController {
 
-    private ParkingService parkingService;
+    private final ParkingService parkingService;
     Logger logger = LoggerFactory.getLogger(ParkingApiController.class);
-    private final HttpSession httpSession;
 
     @Operation(summary = "입력한 동네의 주차장 출력")
     @GetMapping
     public ResponseEntity<CustomResponse> getParkingByAddress(@RequestParam String address) {
         return CustomResponse.CommonResponse(HttpStatus.OK, true,
-            "초기 DB 생성 여부 반환 성공", parkingService.getParkingByAddress(address));
+            "검색어로 주차장 조회 성공", parkingService.getParkingByAddress(address));
     }
 
     @Operation(summary = "id값을 가진 주차장 반환")
     @GetMapping("/{parkingId}")
     public ResponseEntity<CustomResponse> getParkingById(@PathVariable Long parkingId) {
         return CustomResponse.CommonResponse(HttpStatus.OK, true,
-            "초기 DB 생성 여부 반환 성공", parkingService.getParkingById(parkingId));
+            "주차장 ID로 주차장 조회 성공", parkingService.getParkingById(parkingId));
     }
 
     @Operation(summary = "MAIN PAGE 메인 화면에서는 DB 속의 주차장 전체 목록 출력")
     @GetMapping("/list")
     public ResponseEntity<CustomResponse> findAll() {
         return CustomResponse.CommonResponse(HttpStatus.OK, true,
-            "초기 DB 생성 여부 반환 성공", parkingService.getAll());
+            "모든 주차장목록 조회 성공", parkingService.getAll());
     }
 }

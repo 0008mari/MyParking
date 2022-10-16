@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,9 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 //import project.myparking.config.auth.dto.SessionUser;
 import project.myparking.domain.Review;
 import project.myparking.domain.User;
-import project.myparking.dto.ReviewDto;
+import project.myparking.dto.ReviewRequestDto;
+import project.myparking.dto.ReviewUpdateDto;
 import project.myparking.global.api.CustomResponse;
-import project.myparking.global.exception.CustomException;
+import project.myparking.error.exception.CustomException;
 import project.myparking.service.ReviewService;
 import project.myparking.util.StringUtil;
 
@@ -40,7 +42,7 @@ public class ReviewApiController {
     @GetMapping("/{reviewId}")
     public ResponseEntity<CustomResponse> getReviewById(@PathVariable Long reviewId) {
         return CustomResponse.CommonResponse(HttpStatus.OK, true,
-            "리뷰ID 로 작성된 리뷰 출력 성공", reviewService.getReviewById(reviewId));
+            "리뷰ID 로 작성된 리뷰 조회 성공", reviewService.getReviewById(reviewId));
     }
 
     @GetMapping
@@ -71,38 +73,39 @@ public class ReviewApiController {
 
         // TODO: 입력 값 2개일 때 예외 처리 해줘야함
         return CustomResponse.CommonResponse(HttpStatus.OK, true,
-            "주차장 ID 또는 사용자 ID로 해당 주차장에 작성된 리뷰 출력 성공", data);
+            "주차장 ID 또는 사용자 ID로 해당 주차장에 작성된 리뷰 조회 성공", data);
     }
 
     @PostMapping("/new")
     @Operation(summary = "해당 주차장에 리뷰 등록")
-    public ResponseEntity<CustomResponse> addReview(@RequestBody ReviewDto dto) {
+    public ResponseEntity<CustomResponse> addReview(@RequestBody ReviewRequestDto dto) {
         Review review = reviewService.addReview(dto);
         
         if(review == null){
             throw new CustomException(HttpStatus.BAD_REQUEST, "리뷰 작성 실패");
         }
         return CustomResponse.CommonResponse(HttpStatus.CREATED, true,
-            "리뷰 작성 성공", review.getId());
+            "리뷰 등록 성공", review.getId());
     }
-//
-//    @PutMapping("/reviews/{reviewid}")
-//    @Operation(summary = "리뷰 수정")
-//    public String update(@PathVariable Long reviewid, @RequestBody ReviewUpdateDto dto,
-//                       HttpServletRequest req, @LoginUser SessionUser loginuser) {
-//
-//        User user = reviewService.findReviewWriter(reviewid);
-//
-//        // 내가 작성한 리뷰일 경우에만 리뷰 삭제
+
+    @PutMapping("/{reviewId}")
+    @Operation(summary = "리뷰 수정")
+    public ResponseEntity<CustomResponse> update(@PathVariable Long reviewId, @RequestBody ReviewUpdateDto dto,
+                       HttpServletRequest req) // @LoginUser SessionUser loginuser)
+    {
+        User user = reviewService.getReviewWriter(reviewId);
+
+        // 내가 작성한 리뷰일 경우에만 리뷰 삭제
 //        if(user.getEmail() == loginuser.getEmail()){
-//            reviewService.update(reviewid, dto);
-//            return "Review Update Success";
-//        } else{
-//            return "Review Update Fail";
+//            reviewService.update(reviewId, dto);
+//            return CustomResponse.CommonResponse(HttpStatus.OK, true,
+//                "리뷰 수정 성공", reviewId);
 //        }
-//    }
-//
-    @DeleteMapping("/reviews/{reviewid}")
+        return CustomResponse.CommonResponse(HttpStatus.NOT_FOUND, true,
+             "리뷰 수정 실패", reviewId);
+    }
+
+    @DeleteMapping("/{reviewId}")
     @Operation(summary = "리뷰 삭제")
 //    public ResponseEntity<CustomResponse> deleteReview (@PathVariable Long reviewId, HttpServletRequest req, @LoginUser SessionUser loginuser) {
     public ResponseEntity<CustomResponse> deleteReview (@PathVariable Long reviewId, HttpServletRequest req) {

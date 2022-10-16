@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import project.myparking.config.auth.dto.SessionUser;
+import project.myparking.domain.User;
 import project.myparking.error.exception.NoUserException;
 import project.myparking.global.api.CustomResponse;
 import project.myparking.repository.UserRepository;
@@ -30,15 +31,16 @@ public class UserApiController {
         logger.info("UserApiController userInfo() ");
 
         // TODO: 로직 수정
-        Object data = null;
-        String msg = null;
-        userRepository.findById(userId).orElseThrow(() -> new NoUserException());
+//        Object data = null;
+//        String msg = null;
+        User user = userRepository.findById(userId).orElseThrow(() -> new NoUserException());
 
-        if( httpSession.getAttribute("user") != null ){
-            data = (SessionUser) httpSession.getAttribute("user");
-        }
+        // TODO: JWT Token 확인으로
+//        if( httpSession.getAttribute("user") != null ){
+//            data = (SessionUser) httpSession.getAttribute("user");
+//        }
         return CustomResponse.CommonResponse(HttpStatus.CREATED, true,
-            "사용자 정보 조회 성공", data);
+            "사용자 정보 조회 성공", user.getId());
     }
 
 //    @PostMapping(value="/admin/signup",

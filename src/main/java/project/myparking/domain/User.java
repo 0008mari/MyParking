@@ -77,16 +77,12 @@ public class User extends BaseTimeEntity {
         return this;
     }
 
-    public String getRoleKey(){
-        return this.role.getKey();
-    }
-
-    public String getRoleTitle(){
-        return this.role.getTitle();
+    public String getRoleCode(){
+        return this.role.getCode();
     }
 
 
-//    public void encryptPassword(PasswordEncoder passwordEncoder) {
+    //    public void encryptPassword(PasswordEncoder passwordEncoder) {
 //        password = passwordEncoder.encode(password);
 //    }
 //    public String encryptPassword(String pwd) {

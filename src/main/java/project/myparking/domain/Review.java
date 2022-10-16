@@ -11,7 +11,7 @@ import project.myparking.enumtype.EvalStaff;
 @Entity
 @Table(name = "reviews")
 @Setter @Getter
-@NoArgsConstructor// (access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class Review extends BaseTimeEntity {
 
     @Id @Column(name = "review_id")
@@ -19,7 +19,7 @@ public class Review extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parking_id")
+    @JoinColumn(name = "parking_id", referencedColumnName="parking_id")
     private Parking parking;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -84,7 +84,7 @@ public class Parking {
     @Transient
     private double longitude;
 
-    @OneToMany (mappedBy = "parking")
+    @OneToMany (mappedBy = "parking", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
 
     public double getStarAvg(){
@@ -96,6 +96,10 @@ public class Parking {
             total /= reviews.size();
         }
         return total;
+    }
+
+    public int getReviewCnt() {
+        return reviews.size();
     }
 
     public Parking(String name, String address, String code, String typeName, String opRuleName, String tel,
@@ -118,5 +122,10 @@ public class Parking {
         this.addTimeRate = addTimeRate;
         this.latitude = latitude;
         this.longitude = longitude;
+    }
+
+    public void addReview(Review review) {
+//        review.setParking(this);
+        this.reviews.add(review);
     }
 }
