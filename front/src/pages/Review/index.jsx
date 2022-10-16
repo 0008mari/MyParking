@@ -39,7 +39,7 @@ function ReviewPage() {
       !selectedReview[4] ||
       !selectedReview[5]
     ) {
-      console.log("error");
+      alert("모든 항목을 선택해주세요");
       return;
     }
 
