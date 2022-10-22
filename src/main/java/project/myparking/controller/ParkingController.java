@@ -1,4 +1,4 @@
-package project.myparking.api;
+package project.myparking.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import java.util.HashMap;

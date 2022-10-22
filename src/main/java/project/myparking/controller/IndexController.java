@@ -1,10 +1,8 @@
-package project.myparking.api;
+package project.myparking.controller;
 
-import io.swagger.v3.oas.annotations.Operation;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
