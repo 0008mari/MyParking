@@ -1,4 +1,4 @@
-package project.myparking.api;
+package project.myparking.controller;
 
 import java.util.HashMap;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import project.myparking.domain.User;
 import project.myparking.dto.SignupDto;
+import project.myparking.error.exception.CustomException;
 import project.myparking.error.exception.LoginFailException;
 import project.myparking.global.api.CustomResponse;
 import project.myparking.repository.UserRepository;
@@ -25,6 +26,10 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<CustomResponse> register(@RequestBody SignupDto dto) {
+        User check = userRepository.findByEmail(dto.getEmail());
+        if(check != null){
+            throw new CustomException(HttpStatus.BAD_REQUEST, "이메일의 계정이 이미 존재합니다.");
+        }
         User user = userRepository.save(new User(dto.getUsername(), dto.getEmail(), dto.getPassword()));
         HashMap<String, Object> map = new HashMap<>();
         map.put("userId", user.getId());
