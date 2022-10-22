@@ -1,59 +1,25 @@
-import { useState } from "react";
-import { Button } from "antd";
-import { useMutation } from "@tanstack/react-query";
+import React from "react";
 
 import ReviewList from "./List";
+import Map from "../Map";
 
-import { PageWrapper } from "./styled";
-import axios from "axios";
+import { RowFlexWrapper, LeftWrapper, RightWrapper } from "./style";
+import { useState } from "react";
+import AverageReview from "./AverageReview";
 
 function ReviewPage() {
-  const [selectedReview, setSelectedReview] = useState({});
-
-  const { mutate } = useMutation(() => {
-    axios.post("/reviews/new", {
-      space: selectedReview[0],
-      parkingLevel: selectedReview[1],
-      price: selectedReview[2],
-      staff: selectedReview[3],
-      revisit: selectedReview[4],
-      score: selectedReview[5],
-    });
-  });
-
-  const handleButtonClick = (e, index) => {
-    setSelectedReview((prev) => ({ ...prev, [index]: e.target.value }));
-  };
-
-  const handleRateClick = (value) => {
-    setSelectedReview((prev) => ({ ...prev, 5: value }));
-  };
-
-  const handleSubmitReview = (e) => {
-    e.preventDefault();
-    if (
-      !selectedReview[0] ||
-      !selectedReview[1] ||
-      !selectedReview[2] ||
-      !selectedReview[3] ||
-      !selectedReview[4] ||
-      !selectedReview[5]
-    ) {
-      alert("모든 항목을 선택해주세요");
-      return;
-    }
-
-    mutate();
-  };
+  const [items, setItems] = useState([]);
 
   return (
-    <PageWrapper>
-      <h1>리뷰쓰기</h1>
-      <ReviewList onClick={handleButtonClick} onChange={handleRateClick} />
-      <Button size="large" onClick={handleSubmitReview}>
-        리뷰 남기기
-      </Button>
-    </PageWrapper>
+    <RowFlexWrapper>
+      <LeftWrapper>
+        <AverageReview />
+        <ReviewList items={items} />
+      </LeftWrapper>
+      <RightWrapper>
+        <Map setItems={setItems} />
+      </RightWrapper>
+    </RowFlexWrapper>
   );
 }
 
