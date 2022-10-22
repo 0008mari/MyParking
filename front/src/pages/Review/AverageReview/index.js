@@ -27,11 +27,7 @@ function AverageReview() {
         <div>{data.address}</div>
       </div>
       <div>
-        <Button
-          type="primary"
-          size="large"
-          onClick={() => navigate("/review/new")}
-        >
+        <Button type="primary" size="large" onClick={() => navigate("new")}>
           리뷰 남기기
         </Button>
       </div>
