@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const appClient = axios.create({
-  baseURL: process.env.API_URL,
+  baseURL: process.env.REACT_APP_API_URL,
   timeout: 3000,
 });
 
