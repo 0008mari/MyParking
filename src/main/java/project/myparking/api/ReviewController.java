@@ -28,7 +28,7 @@ import project.myparking.util.StringUtil;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/reviews")
-public class ReviewApiController {
+public class ReviewController {
 
     private final ReviewService reviewService;
     /**

@@ -13,35 +13,28 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-//import project.myparking.config.auth.LoginUser;
-//import project.myparking.config.auth.dto.SessionUser;
 import project.myparking.domain.Parking;
 import project.myparking.global.api.CustomResponse;
 import project.myparking.service.ParkingService;
+import project.myparking.service.UserService;
 import project.myparking.util.DBInit;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/initialize")
+@RequestMapping
 public class IndexController {
 
     private final ParkingService parkingService;
-    Logger logger = LoggerFactory.getLogger(ParkingApiController.class);
-    private final HttpSession httpSession;
+    private final UserService userService;
+    Logger logger = LoggerFactory.getLogger(ParkingController.class);
 
-    @GetMapping
-    @Operation(summary = "메인화면 최초 접속 이전에 DB 1회 생성 (DB는 서버를 올릴때 한번만 땡겨온다)" +
-        "session 에 로그인 되어있는 사용자가 있는지도 확인하여 있으면 User 를 반환" )
-//    public ResponseEntity<CustomResponse> initDB(@LoginUser SessionUser user) {
-    public ResponseEntity<CustomResponse> initDB() {
+    @GetMapping("/data")
+    public ResponseEntity<CustomResponse> dataInitialize() {
 
         HashMap<String, Object> map = new HashMap<>();
-        logger.info("ParkingApiController initDB() ");
-
         List<Parking> dataList = new ArrayList<>();
 
         if (parkingService.checkIfEmpty()) {
-            logger.info("ParkingApiController insert parkinglots() ");
             try {
                 dataList = DBInit.run();
                 parkingService.insertParkings(dataList);    // 전부 insert
@@ -53,4 +46,16 @@ public class IndexController {
         return CustomResponse.CommonResponse(HttpStatus.OK, true, "DB 생성 불필요");
     }
 
+//    @PostMapping("/login")
+//    public ResponseEntity<TokenResponse> login(@RequestBody LoginRequest loginRequest) {
+//        String token = userService.createToken(loginRequest);
+//        return ResponseEntity.ok().body(new TokenResponse(token, "bearer"));
+//    }
+//
+//    @GetMapping("/info")
+//    public ResponseEntity<UserResponse> getUserFromToken(HttpServletRequest request) {
+//        String name = (String) request.getAttribute("email");
+//        User user = userService.findByEmail((String) request.getAttribute("email"));
+//        return ResponseEntity.ok().body(UserResponse.of(user));
+//    }
 }

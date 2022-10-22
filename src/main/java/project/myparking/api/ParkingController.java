@@ -17,10 +17,10 @@ import project.myparking.service.ParkingService;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/parkings")
-public class ParkingApiController {
+public class ParkingController {
 
     private final ParkingService parkingService;
-    Logger logger = LoggerFactory.getLogger(ParkingApiController.class);
+    Logger logger = LoggerFactory.getLogger(ParkingController.class);
 
     @Operation(summary = "입력한 동네의 주차장 출력")
     @GetMapping

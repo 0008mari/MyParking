@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.myparking.domain.User;
+import project.myparking.error.exception.NoDataException;
+import project.myparking.error.exception.NoUserException;
 import project.myparking.repository.UserRepository;
 
 import java.util.List;
@@ -13,8 +15,8 @@ import java.util.List;
 @Service
 @Transactional(readOnly = true) // 성능향상
 public class UserService {
-
-    private final UserRepository userRepository;
+//
+//    private final UserRepository userRepository;
 //
 //    /**
 //     * 회원가입
@@ -23,7 +25,7 @@ public class UserService {
 //    public Long join(User user) {
 //        validateDuplicateUser(user); //중복 회원 검증
 //        userRepository.save(user);
-//        return user.getUserid();
+//        return user.getId();
 //    }
 //
 //    /**
@@ -31,7 +33,7 @@ public class UserService {
 //     */
 //    private void validateDuplicateUser(User user) {
 //        User findUsers =
-//                userRepository.findByEmail(user.getEmail());
+//                userRepository.findByEmail(user.getEmail()).orElseThrow(()->new NoUserException());
 //        if (findUsers != null) {
 //            throw new IllegalStateException("이미 존재하는 회원입니다.");
 //        }
@@ -45,6 +47,13 @@ public class UserService {
 //    }
 //
 //    public User findOne(Long userId) {
-//        return userRepository.findOne(userId);
+//        return userRepository.findById(userId).orElseThrow(()-> new NoDataException());
+//    }
+//
+//    public String createToken(LoginRequest loginRequest) {
+//        User user = userRepository.findByEmail(loginRequest.getEmail())
+//            .orElseThrow(IllegalArgumentException::new);
+//        //비밀번호 확인 등의 유효성 검사 진행
+//        return jwtTokenProvider.createToken(user.getName());
 //    }
 }

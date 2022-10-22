@@ -4,14 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,17 +18,15 @@ import lombok.Setter;
 @Getter @Setter
 @NoArgsConstructor
 @Table(name = "users")
-public class User extends BaseTimeEntity {
-    /*
-    카카오 프로필 : String nickname, String profile_image, String thumbnail_image_url, Boolean prifile_needs_agreement
-     */
+public class User {
+//    extends BaseTimeEntity {
+//    implements UserDetails {
+    // 카카오 프로필 : String nickname, String profile_image, String thumbnail_image_url, Boolean prifile_needs_agreement
 
     @Id
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
      private Long id;
-
-//    private String alias;           // 카카오 프로필 : String nickname
 
     @Column(nullable = false)
     private String username;
@@ -39,57 +34,55 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false)
     private String email;
     private String password;
-    @Column
-    private String picture;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Role role;
-
-    // 이거아님
-//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-//    private Set<Role> roles;
-
-//    public User(SignupDto dto) {
-//        email = dto.getEmail();
-//        password = dto.getPassword();
-//        username = dto.getUsername();
-//        role = Role.USER;
-//    }
+//    @Enumerated(EnumType.STRING)
+//    @Column(nullable = false)
+//    private Role role;
 
     @OneToMany(mappedBy = "user")
     private List<Review> reviews = new ArrayList<>();
 
-//    @Builder
-//    public User(String email, String username, Role role, String picture, String pwd) {
-//        this.username = username;
-//        this.password = encryptPassword(pwd);
-//        this.email = email;
-//        this.picture = picture;
-//        this.role = role;
+//    public String getRoleCode(){
+//        return this.role.getCode();
 //    }
 
-    public User update(String name, String picture){
-        this.username = name;
-        this.picture = picture;
-
-        return this;
+    public User(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
     }
-
-    public String getRoleCode(){
-        return this.role.getCode();
-    }
-
-
-    //    public void encryptPassword(PasswordEncoder passwordEncoder) {
-//        password = passwordEncoder.encode(password);
+//
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        return null;
 //    }
-//    public String encryptPassword(String pwd) {
-//        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-//        if(pwd == null) pwd = "0";
-//        return passwordEncoder.encode(pwd);
+//
+//    @Override
+//    public String getUsername() {
+//        return null;
 //    }
+//
+//    @Override
+//    public boolean isAccountNonExpired() {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean isAccountNonLocked() {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean isCredentialsNonExpired() {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean isEnabled() {
+//        return false;
+//    }
+
+
 }
 
 
