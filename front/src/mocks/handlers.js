@@ -9,6 +9,19 @@ export const handlers = [
     return res(ctx.status(200), ctx.json());
   }),
 
+  // parking
+  rest.get("/parkings/:parkingId", (req, res, ctx) => {
+    console.log("here");
+    const result = {
+      name: "마들스타디움(근린공원)(구)",
+      reviewStarAvg: 1.0,
+      reviewCount: 1,
+      address: "노원구 상계동 770-2",
+    };
+
+    return res(ctx.status(200), ctx.json(result));
+  }),
+
   // review
   // reviewId로 조회
   rest.get("/reviews/:reviewId", (req, res, ctx) => {
@@ -19,12 +32,12 @@ export const handlers = [
     const result = {
       userId: 4,
       parkingId: 5,
-      evalSpace: "LARGE",
-      evalParkinglevel: "EASY",
-      evalCostefficient: "CHEAP",
-      evalStaff: "FRIENDLY",
-      evalRevisit: "YES",
-      starScore: 2,
+      space: "넓어요",
+      parkinglevel: "쉬워요",
+      price: "적당해요",
+      staff: "적당해요",
+      revisit: "또 올께요",
+      score: 5,
     };
 
     return res(ctx.status(200), ctx.json(result));
