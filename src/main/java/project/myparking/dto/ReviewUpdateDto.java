@@ -13,15 +13,14 @@ import project.myparking.enumtype.EvalSpace;
 import project.myparking.enumtype.EvalStaff;
 
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
 public class ReviewUpdateDto {
 
     private Long userId;
-    private EvalSpace space;
-    private EvalParkinglevel level;
-    private EvalCostefficient costefficient;
-    private EvalStaff staff;
-    private EvalRevisit revisit;
-    private int score;
+    private String space;
+    private String level;
+    private String costefficient;
+    private String staff;
+    private String revisit;
+    private Integer score;
 }

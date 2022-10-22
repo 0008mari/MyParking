@@ -102,9 +102,9 @@ public class ReviewController {
     {
         Review review = reviewRepository.findById(reviewId).orElseThrow(() -> new NoReviewException());
 
-        if (review.getUser().getId() == dto.getUserId()) {
-            reviewRepository.save(review);
-        } else{
+        if ((review != null) && (review.getUser().getId() == dto.getUserId())) {
+            reviewService.update(reviewId, dto);
+        } else if (review != null ){
             throw new CustomException(HttpStatus.BAD_REQUEST, "리뷰 수정 실패 : 자신이 작성한 리뷰만 수정할 수 있습니다.");
         }
         HashMap<String, Object> map = new HashMap<>();

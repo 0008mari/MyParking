@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import project.myparking.domain.Review;
 
 @Getter
-@NoArgsConstructor
 public class ReviewResponseDto {
 
     private Long userId;

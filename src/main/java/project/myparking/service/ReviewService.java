@@ -58,11 +58,11 @@ public class ReviewService {
     public void update(Long reviewId, ReviewUpdateDto dto) {
         Review review = reviewRepository.findById(reviewId).orElseThrow(() -> new NoReviewException());
 
-        review.setEvalSpace(dto.getSpace());
-        review.setEvalParkinglevel(dto.getLevel());
-        review.setEvalCostefficient(dto.getCostefficient());
-        review.setEvalStaff(dto.getStaff());
-        review.setEvalRevisit(dto.getRevisit());
+        review.setEvalStaff(EvalStaff.returnEnumByCode(dto.getStaff()));
+        review.setEvalSpace(EvalSpace.returnEnumByCode(dto.getSpace()));
+        review.setEvalCostefficient(EvalCostefficient.returnEnumByCode(dto.getCostefficient()));
+        review.setEvalRevisit(EvalRevisit.returnEnumByCode(dto.getRevisit()));
+        review.setEvalParkinglevel(EvalParkinglevel.returnEnumByCode(dto.getLevel()));
         review.setStarScore(dto.getScore());
 
         reviewRepository.save(review);
