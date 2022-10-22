@@ -17,22 +17,11 @@ import project.myparking.enumtype.EvalStaff;
 @AllArgsConstructor
 public class ReviewUpdateDto {
 
-    private EvalSpace evalSpace;
-    private EvalParkinglevel evalParkinglevel;
-    private EvalCostefficient evalCostefficient;
-    private EvalStaff evalStaff;
-    private EvalRevisit evalRevisit;
-    private int starScore;
-
-    @Builder
-    public ReviewUpdateDto(Review review)
-    {
-        this.evalSpace = review.getEvalSpace();
-        this.evalParkinglevel = review.getEvalParkinglevel();
-        this.evalCostefficient = review.getEvalCostefficient();
-        this.evalStaff = review.getEvalStaff();
-        this.evalRevisit = review.getEvalRevisit();
-
-        this.starScore = review.getStarScore();
-    }
+    private Long userId;
+    private EvalSpace space;
+    private EvalParkinglevel level;
+    private EvalCostefficient costefficient;
+    private EvalStaff staff;
+    private EvalRevisit revisit;
+    private int score;
 }

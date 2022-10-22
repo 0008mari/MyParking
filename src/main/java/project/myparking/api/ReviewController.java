@@ -1,6 +1,7 @@
 package project.myparking.api;
 
 import io.swagger.v3.oas.annotations.Operation;
+import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,8 +21,10 @@ import project.myparking.domain.Review;
 import project.myparking.domain.User;
 import project.myparking.dto.ReviewRequestDto;
 import project.myparking.dto.ReviewUpdateDto;
+import project.myparking.error.exception.NoReviewException;
 import project.myparking.global.api.CustomResponse;
 import project.myparking.error.exception.CustomException;
+import project.myparking.repository.ReviewRepository;
 import project.myparking.service.ReviewService;
 import project.myparking.util.StringUtil;
 
@@ -29,6 +32,7 @@ import project.myparking.util.StringUtil;
 @RequiredArgsConstructor
 @RequestMapping("/reviews")
 public class ReviewController {
+    private final ReviewRepository reviewRepository;
 
     private final ReviewService reviewService;
     /**
@@ -51,7 +55,8 @@ public class ReviewController {
 
         Long getParkingId = 0L;
         Long getUserId = 0L;
-        Object data = null;
+        HashMap<String, Object> map = new HashMap<>();
+        String message = null;
 
         if(!StringUtil.controllerParamIsBlank(parkingId) && StringUtil.controllerParamIsBlank(userId)) {
             try {
@@ -59,7 +64,8 @@ public class ReviewController {
             } catch (NumberFormatException e) {
                 throw new CustomException(HttpStatus.BAD_REQUEST, "잘못된 주차장 ID 입니다. 리뷰목록 조회에 실패했습니다.");
             }
-            data = reviewService.getReviewsByParkingId(getParkingId);
+            message = "주차장ID를 가진 주차장에 작성된 리뷰 목록 조회 성공";
+            map.put("reviewList", reviewService.getReviewsByParkingId(getParkingId));
         }
         else if(StringUtil.controllerParamIsBlank(parkingId) && !StringUtil.controllerParamIsBlank(userId)) {
             try {
@@ -68,41 +74,44 @@ public class ReviewController {
                 throw new CustomException(HttpStatus.BAD_REQUEST,
                     "잘못된 사용자 ID 입니다. 리뷰목록 조회에 실패했습니다.");
             }
-            data = reviewService.getReviewsByUserId(getUserId);
+            message = "사용자ID를 가진 사용자가 작성된 리뷰 목록 조회 성공";
+            map.put("reviewList", reviewService.getReviewsByUserId(getUserId));
         }
 
         // TODO: 입력 값 2개일 때 예외 처리 해줘야함
         return CustomResponse.CommonResponse(HttpStatus.OK, true,
-            "주차장 ID 또는 사용자 ID로 해당 주차장에 작성된 리뷰 조회 성공", data);
+            message, map);
     }
 
     @PostMapping("/new")
     @Operation(summary = "해당 주차장에 리뷰 등록")
     public ResponseEntity<CustomResponse> addReview(@RequestBody ReviewRequestDto dto) {
         Review review = reviewService.addReview(dto);
-        
         if(review == null){
             throw new CustomException(HttpStatus.BAD_REQUEST, "리뷰 작성 실패");
         }
-        return CustomResponse.CommonResponse(HttpStatus.CREATED, true,
-            "리뷰 등록 성공", review.getId());
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("reviewId", review.getId());
+        return CustomResponse.CommonResponse(HttpStatus.CREATED, true, "리뷰 등록 성공", map);
     }
 
     @PutMapping("/{reviewId}")
     @Operation(summary = "리뷰 수정")
-    public ResponseEntity<CustomResponse> update(@PathVariable Long reviewId, @RequestBody ReviewUpdateDto dto,
-                       HttpServletRequest req) // @LoginUser SessionUser loginuser)
+    public ResponseEntity<CustomResponse> update(@PathVariable Long reviewId, @RequestBody ReviewUpdateDto dto)
+                       // HttpServletRequest req, @LoginUser SessionUser loginuser)
     {
-        User user = reviewService.getReviewWriter(reviewId);
+        Review review = reviewRepository.findById(reviewId).orElseThrow(() -> new NoReviewException());
 
-        // 내가 작성한 리뷰일 경우에만 리뷰 삭제
-//        if(user.getEmail() == loginuser.getEmail()){
-//            reviewService.update(reviewId, dto);
-//            return CustomResponse.CommonResponse(HttpStatus.OK, true,
-//                "리뷰 수정 성공", reviewId);
-//        }
+        if (review.getUser().getId() == dto.getUserId()) {
+            reviewRepository.save(review);
+        } else{
+            throw new CustomException(HttpStatus.BAD_REQUEST, "리뷰 수정 실패 : 자신이 작성한 리뷰만 수정할 수 있습니다.");
+        }
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("reviewId", reviewId);
+
         return CustomResponse.CommonResponse(HttpStatus.NOT_FOUND, true,
-             "리뷰 수정 실패", reviewId);
+             "리뷰 수정 성공", map);
     }
 
     @DeleteMapping("/{reviewId}")

@@ -44,13 +44,12 @@ public class ReviewService {
         Review review = new Review();
         review.setParking(parking);
         review.setUser(user);
-        review.setEvalStaff(EvalStaff.returnEnumByValue(dto.getEvalStaff()));
-        review.setEvalSpace(EvalSpace.returnEnumByValue(dto.getEvalSpace()));
-        review.setEvalCostefficient(
-            EvalCostefficient.returnEnumByValue(dto.getEvalCostefficient()));
-        review.setEvalRevisit(EvalRevisit.returnEnumByValue(dto.getEvalRevisit()));
-        review.setEvalParkinglevel(EvalParkinglevel.returnEnumByValue(dto.getEvalParkinglevel()));
-        review.setStarScore(dto.getStarScore());
+        review.setEvalStaff(EvalStaff.returnEnumByValue(dto.getStaff()));
+        review.setEvalSpace(EvalSpace.returnEnumByValue(dto.getSpace()));
+        review.setEvalCostefficient(EvalCostefficient.returnEnumByValue(dto.getCostefficient()));
+        review.setEvalRevisit(EvalRevisit.returnEnumByValue(dto.getRevisit()));
+        review.setEvalParkinglevel(EvalParkinglevel.returnEnumByValue(dto.getLevel()));
+        review.setStarScore(dto.getScore());
 
         return reviewRepository.save(review);
     }
@@ -59,12 +58,12 @@ public class ReviewService {
     public void update(Long reviewId, ReviewUpdateDto dto) {
         Review review = reviewRepository.findById(reviewId).orElseThrow(() -> new NoReviewException());
 
-        review.setEvalSpace(dto.getEvalSpace());
-        review.setEvalParkinglevel(dto.getEvalParkinglevel());
-        review.setEvalCostefficient(dto.getEvalCostefficient());
-        review.setEvalStaff(dto.getEvalStaff());
-        review.setEvalRevisit(dto.getEvalRevisit());
-        review.setStarScore(dto.getStarScore());
+        review.setEvalSpace(dto.getSpace());
+        review.setEvalParkinglevel(dto.getLevel());
+        review.setEvalCostefficient(dto.getCostefficient());
+        review.setEvalStaff(dto.getStaff());
+        review.setEvalRevisit(dto.getRevisit());
+        review.setStarScore(dto.getScore());
 
         reviewRepository.save(review);
     }

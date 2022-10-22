@@ -1,7 +1,6 @@
 package project.myparking.dto;
 
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import project.myparking.domain.Review;
@@ -12,21 +11,21 @@ public class ReviewResponseDto {
 
     private Long userId;
     private Long parkingId;
-    private String evalSpace;
-    private String evalParkinglevel;
-    private String evalCostefficient;
-    private String evalStaff;
-    private String evalRevisit;
-    private Integer starScore;
+    private String space;
+    private String level;
+    private String costefficient;
+    private String staff;
+    private String revisit;
+    private Integer score;
 
     public ReviewResponseDto (Review review) {
         userId = review.getUser().getId();
         parkingId = review.getParking().getId();
-        evalSpace = review.getEvalSpace().getCode();
-        evalCostefficient = review.getEvalCostefficient().getCode();
-        evalStaff = review.getEvalStaff().getCode();
-        evalParkinglevel = review.getEvalParkinglevel().getCode();
-        evalRevisit = review.getEvalRevisit().getCode();
-        starScore = review.getStarScore();
+        space = review.getEvalSpace().getCode();
+        costefficient = review.getEvalCostefficient().getCode();
+        staff = review.getEvalStaff().getCode();
+        level = review.getEvalParkinglevel().getCode();
+        revisit = review.getEvalRevisit().getCode();
+        score = review.getStarScore();
     }
 }
