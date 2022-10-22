@@ -41,7 +41,7 @@ public class Review extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private EvalRevisit evalRevisit;
 
-    private int starScore;
+    private Integer starScore;
 
     //==연관관계 메서드==//
     public void setUser(User user) {

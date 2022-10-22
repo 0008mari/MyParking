@@ -7,9 +7,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum EvalParkinglevel {
 
-    EASY("EASY", 1),
-    FINE("FINE", 2),
-    HARD("HARD", 3);
+    EASY("쉬워요", 1),
+    FINE("적당해요", 2),
+    HARD("어려워요", 3);
 
     private final String code;
     private final Integer value;
@@ -21,8 +21,8 @@ public enum EvalParkinglevel {
     }
 
     public static Integer returnValueByCode(String code) {
-        if(code.equals("EASY")) return EASY.value;
-        if(code.equals("FINE")) return FINE.value;
+        if(code.equals("쉬워요")) return EASY.value;
+        if(code.equals("적당해요")) return FINE.value;
         return HARD.value;
     }
 
@@ -35,8 +35,8 @@ public enum EvalParkinglevel {
     }
 
     public static EvalParkinglevel returnEnumByCode(String code) {
-        if(code.equals("EASY")) return EASY;
-        if(code.equals("FINE")) return FINE;
+        if(code.equals("쉬워요")) return EASY;
+        if(code.equals("적당해요")) return FINE;
         return HARD;
     }
 }

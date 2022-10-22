@@ -7,9 +7,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum EvalStaff {
 
-    FRIENDLY("FRIENDLY", 1),
-    MODERATE("MODERATE", 2),
-    COLD("COLD", 3);
+    FRIENDLY("친절해요", 1),
+    MODERATE("보통이에요", 2),
+    COLD("불친절해요", 3);
 
     private final String code;
     private final Integer value;
@@ -21,8 +21,8 @@ public enum EvalStaff {
     }
 
     public static Integer returnValueByCode(String code) {
-        if(code.equals("FRIENDLY")) return FRIENDLY.value;
-        if(code.equals("MODERATE")) return MODERATE.value;
+        if(code.equals("친절해요")) return FRIENDLY.value;
+        if(code.equals("보통이에요")) return MODERATE.value;
         return COLD.value;
     }
 
@@ -35,8 +35,8 @@ public enum EvalStaff {
     }
 
     public static EvalStaff returnEnumByCode(String code) {
-        if(code.equals("FRIENDLY")) return FRIENDLY;
-        if(code.equals("MODERATE")) return MODERATE;
+        if(code.equals("친절해요")) return FRIENDLY;
+        if(code.equals("보통이에요")) return MODERATE;
         return COLD;
     }
 }

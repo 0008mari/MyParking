@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum EvalRevisit {
 
-    YES("YES", 1), NO("NO", 2);
+    YES("또 올래요", 1), NO("재방문x", 2);
 
     private final String code;
     private final Integer value;
@@ -18,7 +18,7 @@ public enum EvalRevisit {
     }
 
     public static Integer returnValueByCode(String code) {
-        if(code.equals("YES")) return YES.value;
+        if(code.equals("또 올래요")) return YES.value;
         return NO.value;
     }
 
@@ -29,7 +29,7 @@ public enum EvalRevisit {
     }
 
     public static EvalRevisit returnEnumByCode(String code) {
-        if(code.equals("YES")) return YES;
+        if(code.equals("또 올래요")) return YES;
         return NO;
     }
 }

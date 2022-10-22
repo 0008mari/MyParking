@@ -10,11 +10,11 @@ public class ReviewRequestDto {
 
     private Long userId;
     private Long parkingId;
-    private Integer space;
-    private Integer level;
-    private Integer costefficient;
-    private Integer staff;
-    private Integer revisit;
+    private String space;
+    private String level;
+    private String costefficient;
+    private String staff;
+    private String revisit;
     private Integer score;
 
 }

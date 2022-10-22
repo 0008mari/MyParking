@@ -44,11 +44,11 @@ public class ReviewService {
         Review review = new Review();
         review.setParking(parking);
         review.setUser(user);
-        review.setEvalStaff(EvalStaff.returnEnumByValue(dto.getStaff()));
-        review.setEvalSpace(EvalSpace.returnEnumByValue(dto.getSpace()));
-        review.setEvalCostefficient(EvalCostefficient.returnEnumByValue(dto.getCostefficient()));
-        review.setEvalRevisit(EvalRevisit.returnEnumByValue(dto.getRevisit()));
-        review.setEvalParkinglevel(EvalParkinglevel.returnEnumByValue(dto.getLevel()));
+        review.setEvalStaff(EvalStaff.returnEnumByCode(dto.getStaff()));
+        review.setEvalSpace(EvalSpace.returnEnumByCode(dto.getSpace()));
+        review.setEvalCostefficient(EvalCostefficient.returnEnumByCode(dto.getCostefficient()));
+        review.setEvalRevisit(EvalRevisit.returnEnumByCode(dto.getRevisit()));
+        review.setEvalParkinglevel(EvalParkinglevel.returnEnumByCode(dto.getLevel()));
         review.setStarScore(dto.getScore());
 
         return reviewRepository.save(review);

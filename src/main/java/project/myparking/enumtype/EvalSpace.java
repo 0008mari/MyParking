@@ -6,9 +6,9 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum EvalSpace {
-    SMALL("SMALL", 1),
-    MIDDLE("MIDDLE", 2),
-    LARGE("LARGE", 3);
+    SMALL("좁아요", 1),
+    MIDDLE("적당해요", 2),
+    LARGE("넓어요", 3);
 
     private final String code;
     private final Integer value;
@@ -20,8 +20,8 @@ public enum EvalSpace {
     }
 
     public static Integer returnValueByCode(String code) {
-        if(code.equals("SMALL")) return SMALL.value;
-        if(code.equals("MIDDLE")) return MIDDLE.value;
+        if(code.equals("좁아요")) return SMALL.value;
+        if(code.equals("적당해요")) return MIDDLE.value;
         return LARGE.value;
     }
 
@@ -34,8 +34,8 @@ public enum EvalSpace {
     }
 
     public static EvalSpace returnEnumByCode(String code) {
-        if(code.equals("SMALL")) return SMALL;
-        if(code.equals("MIDDLE")) return MIDDLE;
+        if(code.equals("좁아요")) return SMALL;
+        if(code.equals("적당해요")) return MIDDLE;
         return LARGE;
     }
 }

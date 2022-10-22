@@ -7,9 +7,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum EvalCostefficient {
 
-    CHEAP("CHEAP", 1),
-    FAIR("FAIR", 2),
-    OVERPRICED("OVERPRICED", 3);
+    CHEAP("저렴해요", 1),
+    FAIR("적당해요", 2),
+    OVERPRICED("비싸요", 3);
 
 
     private final String code;
@@ -22,8 +22,8 @@ public enum EvalCostefficient {
     }
 
     public static Integer returnValueByCode(String code) {
-        if(code.equals("CHEAP")) return CHEAP.value;
-        if(code.equals("FAIR")) return FAIR.value;
+        if(code.equals("저렴해요")) return CHEAP.value;
+        if(code.equals("적당해요")) return FAIR.value;
         return OVERPRICED.value;
     }
 
@@ -36,8 +36,8 @@ public enum EvalCostefficient {
     }
 
     public static EvalCostefficient returnEnumByCode(String code) {
-        if(code.equals("CHEAP")) return CHEAP;
-        if(code.equals("FAIR")) return FAIR;
+        if(code.equals("저렴해요")) return CHEAP;
+        if(code.equals("적당해요")) return FAIR;
         return OVERPRICED;
     }
 }
