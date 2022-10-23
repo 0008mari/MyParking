@@ -1,8 +1,9 @@
 import React from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Input } from "antd";
 
 import InfoDrawer from "./Drawer";
-import InfiniteList from "./List";
+import List from "./List";
 import Map from "../Map";
 
 import {
@@ -14,10 +15,13 @@ import {
 import { useState } from "react";
 const { Search } = Input;
 
-const onSearch = (value) => console.log(value);
-
 function Main() {
-  const [items, setItems] = useState([]);
+  const [searchKeyword, setSearchKeyword] = useState([]);
+
+  const handleSearch = (value) => {
+    setSearchKeyword(value);
+  };
+
   return (
     <RowFlexWrapper>
       <LeftWrapper>
@@ -26,14 +30,14 @@ function Main() {
           <Search
             placeholder="장소를 입력해주세요"
             allowClear
-            onSearch={onSearch}
+            onSearch={handleSearch}
             style={{ width: "100%" }}
           />
         </FlexWrapper>
-        <InfiniteList items={items} />
+        <List searchKeyword={searchKeyword} />
       </LeftWrapper>
       <RightWrapper>
-        <Map setItems={setItems} />
+        <Map setItems={setSearchKeyword} />
       </RightWrapper>
     </RowFlexWrapper>
   );

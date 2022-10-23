@@ -1,16 +1,16 @@
 import React from "react";
-import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "antd";
 
 import { RowFlexWrapper } from "./style";
+import { appClient } from "../../../api";
 
 function AverageReview() {
   const { parkingId } = useParams();
   const navigate = useNavigate();
   const { data, isLoading } = useQuery(["review", parkingId], async () => {
-    const { data } = await axios.get(`/parkings/${parkingId}`);
+    const { data } = await appClient.get(`/parkings/${parkingId}`);
     return data;
   });
 
