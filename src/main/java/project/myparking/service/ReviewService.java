@@ -37,7 +37,8 @@ public class ReviewService {
     public Review addReview(@NotNull ReviewRequestDto dto) {
 
         // 엔티티 조회
-        Parking parking = parkingRepository.findById(dto.getParkingId()).orElseThrow(() -> new NoParkingException());
+        Parking parking = parkingRepository.findByCode(dto.getParkingCode())
+            .orElseThrow(() -> new NoParkingException());
         User user = userRepository.findById(dto.getUserId()).orElseThrow(() -> new NoUserException());
 
         // 리뷰 생성
@@ -74,13 +75,8 @@ public class ReviewService {
         reviewRepository.delete(review);
     }
 
-    public ReviewResponseDto getReviewByParkingCode(String parkingCode) {
-        Review review = reviewRepository.findByParkingCode(parkingCode);
-        return new ReviewResponseDto(review);
-    }
-
-    public List<ReviewResponseDto> getReviewsByParkingId(Long parkingId){
-        List<Review> reviewList = reviewRepository.findAllByParkingId(parkingId);
+    public List<ReviewResponseDto> getReviewsByParkingCode(String parkingCode){
+        List<Review> reviewList = reviewRepository.findAllByParking(parkingCode);
         if (reviewList.isEmpty()) {
             throw new NoDataException();
         }
@@ -98,7 +94,7 @@ public class ReviewService {
     }
 
     public List<ReviewResponseDto> getReviewsByUserId(Long userId) {
-        List<Review> reviewList = reviewRepository.findAllByUserId(userId);
+        List<Review> reviewList = reviewRepository.findAllByUser(userId);
         if (reviewList.isEmpty()) {
             throw new NoDataException();
         }

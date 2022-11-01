@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-//import project.myparking.config.auth.LoginUser;
-//import project.myparking.config.auth.dto.SessionUser;
 import project.myparking.domain.Review;
 import project.myparking.domain.User;
 import project.myparking.dto.ReviewRequestDto;
@@ -50,26 +48,26 @@ public class ReviewController {
     }
 
     @GetMapping
-    public ResponseEntity<CustomResponse> allReviewsByParkingIdOrUserId(@RequestParam(required = false) String parkingId,
+    public ResponseEntity<CustomResponse> allReviewsByParkingCodeOrUserId(@RequestParam(required = false) String parkingCode,
         @RequestParam(required = false) String userId) {
 
-        Long getParkingId = 0L;
+        String getParkingCode = null;
         Long getUserId = 0L;
         HashMap<String, Object> map = new HashMap<>();
         String message = null;
 
-        if(!StringUtil.controllerParamIsBlank(parkingId) && StringUtil.controllerParamIsBlank(userId)) {
+        if(!StringUtil.controllerParamIsBlank(parkingCode) && StringUtil.controllerParamIsBlank(userId)) {
             try {
-                getParkingId = Long.parseLong(parkingId);
+                getParkingCode = parkingCode;
             } catch (NumberFormatException e) {
                 throw new CustomException(HttpStatus.BAD_REQUEST, "잘못된 주차장 ID 입니다. 리뷰목록 조회에 실패했습니다.");
             }
             message = "주차장ID를 가진 주차장에 작성된 리뷰 목록 조회 성공";
-            map.put("reviewList", reviewService.getReviewsByParkingId(getParkingId));
+            map.put("reviewList", reviewService.getReviewsByParkingCode(getParkingCode));
         }
-        else if(StringUtil.controllerParamIsBlank(parkingId) && !StringUtil.controllerParamIsBlank(userId)) {
+        else if(StringUtil.controllerParamIsBlank(parkingCode) && !StringUtil.controllerParamIsBlank(userId)) {
             try {
-                getParkingId = Long.parseLong(parkingId);
+                getParkingCode = parkingCode;
             } catch (NumberFormatException e) {
                 throw new CustomException(HttpStatus.BAD_REQUEST,
                     "잘못된 사용자 ID 입니다. 리뷰목록 조회에 실패했습니다.");
@@ -116,11 +114,9 @@ public class ReviewController {
 
     @DeleteMapping("/{reviewId}")
     @Operation(summary = "리뷰 삭제")
-//    public ResponseEntity<CustomResponse> deleteReview (@PathVariable Long reviewId, HttpServletRequest req, @LoginUser SessionUser loginuser) {
     public ResponseEntity<CustomResponse> deleteReview (@PathVariable Long reviewId, HttpServletRequest req) {
 
         User user = reviewService.getReviewWriter(reviewId);
-
         // 내가 작성한 리뷰일 경우에만 리뷰 삭제
 //        if(user.getEmail() == loginuser.getEmail()){
             reviewService.delete(reviewId);

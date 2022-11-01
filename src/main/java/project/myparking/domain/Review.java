@@ -19,7 +19,7 @@ public class Review extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parking_id", referencedColumnName="parking_id")
+    @JoinColumn(name = "parking_code", referencedColumnName="parking_code")
     private Parking parking;
 
     @ManyToOne(fetch = FetchType.LAZY)

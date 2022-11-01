@@ -9,7 +9,7 @@ import lombok.Getter;
 public class ReviewRequestDto {
 
     private Long userId;
-    private Long parkingId;
+    private String parkingCode;
     private String space;
     private String level;
     private String costefficient;

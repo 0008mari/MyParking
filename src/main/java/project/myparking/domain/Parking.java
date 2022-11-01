@@ -14,11 +14,6 @@ import java.util.List;
 @Table(name = "parkings")
 public class Parking {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column (name = "parking_id")
-    private Long id;
-
     @Column(name = "parking_name", length = 500)
     @NotNull
     private String name;
@@ -27,6 +22,7 @@ public class Parking {
     @NotNull
     private String address;
 
+    @Id
     @Column(name = "parking_code", length = 100)
     @NotNull
     private String code;
@@ -78,12 +74,6 @@ public class Parking {
     @NotNull
     private double addTimeRate;       // 추가 단위 시간(분 단위)
 
-    @Transient
-    private double latitude;
-
-    @Transient
-    private double longitude;
-
     @OneToMany (mappedBy = "parking", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
 
@@ -104,7 +94,7 @@ public class Parking {
 
     public Parking(String name, String address, String code, String typeName, String opRuleName, String tel,
         double capacity, String payName, String weekdayBeginTime, String weekdayEndTime, String syncTime,
-        double rates, double timeRate, double addRates, double addTimeRate, double latitude, double longitude) {
+        double rates, double timeRate, double addRates, double addTimeRate) {
         this.name = name;
         this.address = address;
         this.code = code;
@@ -120,8 +110,7 @@ public class Parking {
         this.timeRate = timeRate;
         this.addRates = addRates;
         this.addTimeRate = addTimeRate;
-        this.latitude = latitude;
-        this.longitude = longitude;
+
     }
 
     public void addReview(Review review) {

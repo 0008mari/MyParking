@@ -11,8 +11,5 @@ public class SignupDto {
     private String username;
     private String password;
 //    private String passwordConfirmation;
-    public User toEntity(String email, String username, String password) {
-        return new User(email, username, password);
-    }
 
 }
