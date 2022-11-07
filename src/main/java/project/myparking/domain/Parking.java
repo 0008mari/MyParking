@@ -74,6 +74,14 @@ public class Parking {
     @NotNull
     private double addTimeRate;       // 추가 단위 시간(분 단위)
 
+    @Column(name = "parking_latitude", length = 20)
+    @NotNull
+    private double latitude;
+
+    @Column(name = "parking_longitude", length = 20)
+    @NotNull
+    private double longitude;
+
     @OneToMany (mappedBy = "parking", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
 
@@ -94,7 +102,7 @@ public class Parking {
 
     public Parking(String name, String address, String code, String typeName, String opRuleName, String tel,
         double capacity, String payName, String weekdayBeginTime, String weekdayEndTime, String syncTime,
-        double rates, double timeRate, double addRates, double addTimeRate) {
+        double rates, double timeRate, double addRates, double addTimeRate, double latitude, double longitude) {
         this.name = name;
         this.address = address;
         this.code = code;
@@ -110,7 +118,8 @@ public class Parking {
         this.timeRate = timeRate;
         this.addRates = addRates;
         this.addTimeRate = addTimeRate;
-
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public void addReview(Review review) {

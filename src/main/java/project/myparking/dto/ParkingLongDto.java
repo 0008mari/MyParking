@@ -22,6 +22,9 @@ public class ParkingLongDto {
     private double timeRate;
     private double addRates;
     private double addTimeRate;
+    private double latitude;
+    private double longitude;
+
 
     public ParkingLongDto(Parking parking) {
         this.name = parking.getName();
@@ -38,6 +41,8 @@ public class ParkingLongDto {
         this.timeRate = parking.getTimeRate();
         this.addRates = parking.getAddRates();
         this.addTimeRate = parking.getAddTimeRate();
+        this.latitude = parking.getLatitude();
+        this.longitude = parking.getLongitude();
     }
 
 }

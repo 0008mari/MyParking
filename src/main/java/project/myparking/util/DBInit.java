@@ -73,11 +73,13 @@ public class DBInit {
                 double timeRates = park.getDouble("TIME_RATE");
                 double addRates = park.getDouble("ADD_RATES");
                 double addTimeRate = park.getDouble("ADD_TIME_RATE");
+                double latitude = park.getDouble("LAT");
+                double longitude = park.getDouble("LNG");
 
                 Parking p = new Parking(parkingName,
                     address, parkingCode, parkingTypeNM, operationRuleNM,
                     tel, capacity, payNM, weekdayBeginTime, weekdayEndTime,
-                    syncTime, rates, timeRates, addRates, addTimeRate);
+                    syncTime, rates, timeRates, addRates, addTimeRate, latitude, longitude);
 
                 parkingList.add(p);
             }

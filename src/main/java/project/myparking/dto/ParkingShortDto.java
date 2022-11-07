@@ -10,11 +10,15 @@ public class ParkingShortDto {
     private double reviewStarAvg;
     private int reviewCount;
     private String address;
+    private double latitude;
+    private double longitude;
 
     public ParkingShortDto(Parking parking) {
         this.name = parking.getName();
         this.reviewStarAvg = parking.getStarAvg();
         this.reviewCount = parking.getReviews().size();
         this.address = parking.getAddress();
+        this.latitude = parking.getLatitude();
+        this.longitude = parking.getLongitude();
     }
 }
