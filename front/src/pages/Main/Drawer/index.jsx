@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Drawer, Button, Space } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
 
 function InfoDrawer() {
   const [visible, setVisible] = useState(false);
@@ -21,14 +22,13 @@ function InfoDrawer() {
         </Button>
       </Space>
       <Drawer
-        title="홍컴님"
+        title="주차어때"
         placement="left"
         width={"300px"}
         onClose={onClose}
         visible={visible}
       >
-        <p>마이페이지</p>
-        <p>작성한 리뷰</p>
+        <Link to={"/mypage"}>마이페이지</Link>
       </Drawer>
     </>
   );

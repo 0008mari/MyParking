@@ -22,9 +22,4 @@ const RightWrapper = styled.div`
   width: calc(100vw - 350px);
 `;
 
-const FlexWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-export { RowFlexWrapper, LeftWrapper, RightWrapper, FlexWrapper };
+export { RowFlexWrapper, LeftWrapper, RightWrapper };

@@ -1,68 +1,43 @@
-import React, { useState, useEffect } from "react";
-import { List, Skeleton, Divider } from "antd";
-import InfiniteScroll from "react-infinite-scroll-component";
+import { useNavigate } from "react-router-dom";
+import { List, Skeleton } from "antd";
 
-function InfiniteList() {
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState([]);
+function MainList({ parkings }) {
+  const navigate = useNavigate();
 
-  const loadMoreData = () => {
-    if (loading) {
-      return;
-    }
-    setLoading(true);
-    fetch(
-      "https://randomuser.me/api/?results=10&inc=name,gender,email,nat,picture&noinfo"
-    )
-      .then((res) => res.json())
-      .then((body) => {
-        setData([...data, ...body.results]);
-        setLoading(false);
-      })
-      .catch(() => {
-        setLoading(false);
-      });
+  const handleItemClick = (code) => {
+    navigate(`/review/${code}`);
   };
 
-  useEffect(() => {
-    loadMoreData();
-  }, []);
+  if (!parkings) return <Skeleton />;
 
   return (
     <div
       id="scrollableDiv"
       style={{
-        height: "100vh",
+        height: "85vh",
         width: "100%",
         overflow: "auto",
         padding: "0 16px",
         border: "1px solid rgba(140, 140, 140, 0.35)",
       }}
     >
-      <InfiniteScroll
-        dataLength={data.length}
-        next={loadMoreData}
-        hasMore={data.length < 50}
-        loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}
-        endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
-        scrollableTarget="scrollableDiv"
-      >
-        <List
-          dataSource={data}
-          renderItem={(item) => (
-            <List.Item key={item.id}>
-              <List.Item.Meta
-                avatar={"A"}
-                title={`홍익대 주차장`}
-                description={`평점 4.5`}
-              />
-              {`서울특별시 마포구 와우산로 94`}
-            </List.Item>
-          )}
-        />
-      </InfiniteScroll>
+      <List
+        dataSource={parkings}
+        renderItem={(item, i) => (
+          <List.Item key={item.code} onClick={() => handleItemClick(item.code)}>
+            <List.Item.Meta
+              avatar={String.fromCharCode("A".charCodeAt(0) + i)}
+              title={item.name}
+              description={`리뷰 ${
+                item.reviewCount
+              }개, 평점 ${item.reviewStarAvg.toFixed(2)}`}
+            />
+            {item.address}
+          </List.Item>
+        )}
+      />
     </div>
   );
 }
 
-export default InfiniteList;
+export default MainList;

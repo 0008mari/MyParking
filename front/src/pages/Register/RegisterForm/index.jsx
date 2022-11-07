@@ -1,5 +1,8 @@
 import React from "react";
+import { useMutation } from "@tanstack/react-query";
 import { Form, Input, Button } from "antd";
+import { appClient } from "../../../api";
+import { useNavigate } from "react-router-dom";
 
 const formItemLayout = {
   labelCol: {
@@ -34,9 +37,27 @@ const tailFormItemLayout = {
 
 const RegistrationForm = () => {
   const [form] = Form.useForm();
+  const navigate = useNavigate();
+
+  const postRegister = async ({ username, email, password }) => {
+    const data = await appClient.post("/register", {
+      username,
+      email,
+      password,
+    });
+    return data;
+  };
+  const { mutate } = useMutation(postRegister, {
+    onSuccess: (data) => {
+      navigate("/login");
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
 
   const onFinish = (values) => {
-    console.log("Received values of form: ", values);
+    mutate(values);
   };
 
   return (
@@ -105,7 +126,7 @@ const RegistrationForm = () => {
       </Form.Item>
 
       <Form.Item
-        name="nickname"
+        name="username"
         label="닉네임"
         rules={[
           {
