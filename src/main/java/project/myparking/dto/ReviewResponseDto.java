@@ -8,6 +8,7 @@ import project.myparking.domain.Review;
 @Getter
 public class ReviewResponseDto {
 
+    private Long reviewId;
     private Long userId;
     private String code;
     private String space;
@@ -18,6 +19,7 @@ public class ReviewResponseDto {
     private Integer score;
 
     public ReviewResponseDto (Review review) {
+        reviewId = review.getId();
         userId = review.getUser().getId();
         code = review.getParking().getCode();
         space = review.getEvalSpace().getCode();
