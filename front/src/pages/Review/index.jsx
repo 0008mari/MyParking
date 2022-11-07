@@ -1,25 +1,17 @@
 import React from "react";
 
 import ReviewList from "./List";
-import Map from "../Map";
-
-import { RowFlexWrapper, LeftWrapper, RightWrapper } from "./style";
-import { useState } from "react";
 import AverageReview from "./AverageReview";
+import { useParams } from "react-router-dom";
 
 function ReviewPage() {
-  const [items, setItems] = useState([]);
+  const { parkingId } = useParams();
 
   return (
-    <RowFlexWrapper>
-      <LeftWrapper>
-        <AverageReview />
-        <ReviewList items={items} />
-      </LeftWrapper>
-      <RightWrapper>
-        <Map setItems={setItems} />
-      </RightWrapper>
-    </RowFlexWrapper>
+    <>
+      <AverageReview parkingId={parkingId} />
+      <ReviewList parkingId={parkingId} />
+    </>
   );
 }
 

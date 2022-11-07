@@ -1,25 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import { List, Skeleton } from "antd";
-import { useQuery } from "@tanstack/react-query";
-import { appClient } from "../../../api";
 
-function MainList({ searchKeyword }) {
+function MainList({ parkings }) {
   const navigate = useNavigate();
 
-  const handleItemClick = () => {
-    navigate("/review/1");
+  const handleItemClick = (code) => {
+    navigate(`/review/${code}`);
   };
 
-  const { data: parkings, isLoading } = useQuery(["parking"], async () => {
-    const { data } = await appClient.get(`/parkings`, {
-      params: { address: searchKeyword },
-    });
-    return data;
-  });
-
-  if (isLoading || !parkings) return <Skeleton />;
-
-  console.log(parkings.data.parkingList);
+  if (!parkings) return <Skeleton />;
 
   return (
     <div
@@ -33,13 +22,15 @@ function MainList({ searchKeyword }) {
       }}
     >
       <List
-        dataSource={parkings.data.parkingList}
+        dataSource={parkings}
         renderItem={(item, i) => (
-          <List.Item key={item.id} onClick={handleItemClick}>
+          <List.Item key={item.code} onClick={() => handleItemClick(item.code)}>
             <List.Item.Meta
               avatar={String.fromCharCode("A".charCodeAt(0) + i)}
               title={item.name}
-              description={`평점 4.5`}
+              description={`리뷰 ${
+                item.reviewCount
+              }개, 평점 ${item.reviewStarAvg.toFixed(2)}`}
             />
             {item.address}
           </List.Item>

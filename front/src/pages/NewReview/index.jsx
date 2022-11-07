@@ -5,21 +5,34 @@ import { useMutation } from "@tanstack/react-query";
 import ReviewList from "./List";
 
 import { PageWrapper } from "./styled";
-import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
+import { appClient } from "../../api";
 
 function ReviewNewPage() {
   const [selectedReview, setSelectedReview] = useState({});
+  const { parkingId } = useParams();
+  const navigate = useNavigate();
+  const userId = localStorage.getItem("userId");
 
-  const { mutate } = useMutation(() => {
-    axios.post("/reviews/new", {
-      space: selectedReview[0],
-      parkingLevel: selectedReview[1],
-      price: selectedReview[2],
-      staff: selectedReview[3],
-      revisit: selectedReview[4],
-      score: selectedReview[5],
-    });
-  });
+  const { mutate } = useMutation(
+    () => {
+      appClient.post("/reviews/new", {
+        userId: userId,
+        code: parkingId,
+        space: selectedReview[0],
+        level: selectedReview[1],
+        costefficient: selectedReview[2],
+        staff: selectedReview[3],
+        revisit: selectedReview[4],
+        score: selectedReview[5],
+      });
+    },
+    {
+      onSuccess: () => {
+        navigate(`/review/${parkingId}`);
+      },
+    }
+  );
 
   const handleButtonClick = (e, index) => {
     setSelectedReview((prev) => ({ ...prev, [index]: e.target.value }));

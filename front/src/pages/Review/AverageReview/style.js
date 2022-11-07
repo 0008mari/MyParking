@@ -6,7 +6,7 @@ const RowFlexWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
 
-  padding: 10px;
+  padding: 20px;
 `;
 
 export { RowFlexWrapper };

@@ -1,15 +1,14 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button } from "antd";
 
 import { RowFlexWrapper } from "./style";
 import { appClient } from "../../../api";
 
-function AverageReview() {
-  const { parkingId } = useParams();
+function AverageReview({ parkingId }) {
   const navigate = useNavigate();
-  const { data, isLoading } = useQuery(["review", parkingId], async () => {
+  const { data, isLoading } = useQuery(["parkingData", parkingId], async () => {
     const { data } = await appClient.get(`/parkings/${parkingId}`);
     return data;
   });
@@ -22,9 +21,9 @@ function AverageReview() {
   return (
     <RowFlexWrapper>
       <div>
-        <h2>{data.name}</h2>
-        <div>별점 {data.reviewStarAvg}</div>
-        <div>{data.address}</div>
+        <h2>{data.data.name}</h2>
+        <div>{`별점 ${data.data.reviewStarAvg.toFixed(2)}`}</div>
+        <div>{data.data.address}</div>
       </div>
       <div>
         <Button type="primary" size="large" onClick={() => navigate("new")}>

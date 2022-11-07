@@ -10,6 +10,7 @@ function LoginForm() {
   const navigate = useNavigate();
   const postLogin = async (values) => {
     const data = await appClient.post("/login", values).then((response) => {
+      localStorage.setItem("userId", response.data.data.userId);
       navigate("/");
     });
 
@@ -64,7 +65,7 @@ function LoginForm() {
         <Button type="primary" htmlType="submit" className="login-form-button">
           Log in
         </Button>
-        아직 주차어때의 회원이 아닌가요? <a href="">회원가입</a>
+        아직 주차어때의 회원이 아닌가요? <a href="/register">회원가입</a>
       </Form.Item>
     </Form>
   );
