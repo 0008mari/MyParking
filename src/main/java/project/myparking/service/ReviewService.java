@@ -76,7 +76,9 @@ public class ReviewService {
     }
 
     public List<ReviewResponseDto> getReviewsByParkingCode(String parkingCode){
-        List<Review> reviewList = reviewRepository.findAllByParking(parkingCode);
+        Parking parking = parkingRepository.findByCode(parkingCode)
+            .orElseThrow();
+        List<Review> reviewList = reviewRepository.findAllByParking(parking);
         if (reviewList.isEmpty()) {
             throw new NoDataException();
         }
@@ -94,7 +96,8 @@ public class ReviewService {
     }
 
     public List<ReviewResponseDto> getReviewsByUserId(Long userId) {
-        List<Review> reviewList = reviewRepository.findAllByUser(userId);
+        User user = userRepository.findById(userId).orElseThrow();
+        List<Review> reviewList = reviewRepository.findAllByUser(user);
         if (reviewList.isEmpty()) {
             throw new NoDataException();
         }

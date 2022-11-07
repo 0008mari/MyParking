@@ -49,14 +49,14 @@ public class ReviewController {
 
     @GetMapping
     public ResponseEntity<CustomResponse> allReviewsByParkingCodeOrUserId(@RequestParam(required = false) String code,
-        @RequestParam(required = false) String userId) {
+        @RequestParam(required = false) Long userId) {
 
         String getParkingCode = null;
         Long getUserId = 0L;
         HashMap<String, Object> map = new HashMap<>();
         String message = null;
 
-        if(!StringUtil.controllerParamIsBlank(code) && StringUtil.controllerParamIsBlank(userId)) {
+        if(!StringUtil.controllerParamIsBlank(code) && userId == null) {
             try {
                 getParkingCode = code;
             } catch (NumberFormatException e) {
@@ -65,9 +65,9 @@ public class ReviewController {
             message = "주차장ID를 가진 주차장에 작성된 리뷰 목록 조회 성공";
             map.put("reviewList", reviewService.getReviewsByParkingCode(getParkingCode));
         }
-        else if(StringUtil.controllerParamIsBlank(code) && !StringUtil.controllerParamIsBlank(userId)) {
+        else if(StringUtil.controllerParamIsBlank(code) && userId != null) {
             try {
-                getParkingCode = code;
+                getUserId = userId;
             } catch (NumberFormatException e) {
                 throw new CustomException(HttpStatus.BAD_REQUEST,
                     "잘못된 사용자 ID 입니다. 리뷰목록 조회에 실패했습니다.");
