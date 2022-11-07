@@ -10,6 +10,4 @@ public class SignupDto {
     private String email;
     private String username;
     private String password;
-//    private String passwordConfirmation;
-
 }

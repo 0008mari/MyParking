@@ -8,9 +8,9 @@ import project.myparking.domain.Parking;
 @Getter
 public class ParkingLongDto {
 
+    private String code;
     private String name;
     private String address;
-    private String code;
     private String typeName;
     private String opRuleName;
     private String tel;
@@ -27,9 +27,9 @@ public class ParkingLongDto {
 
 
     public ParkingLongDto(Parking parking) {
+        this.code = parking.getCode();
         this.name = parking.getName();
         this.address = parking.getAddress();
-        this.code = parking.getCode();
         this.typeName = parking.getTypeName();
         this.opRuleName = parking.getOpRuleName();
         this.tel = parking.getTel();

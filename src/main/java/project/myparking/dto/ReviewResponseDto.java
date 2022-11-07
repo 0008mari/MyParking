@@ -9,7 +9,7 @@ import project.myparking.domain.Review;
 public class ReviewResponseDto {
 
     private Long userId;
-    private String parkingCode;
+    private String code;
     private String space;
     private String level;
     private String costefficient;
@@ -19,7 +19,7 @@ public class ReviewResponseDto {
 
     public ReviewResponseDto (Review review) {
         userId = review.getUser().getId();
-        parkingCode = review.getParking().getCode();
+        code = review.getParking().getCode();
         space = review.getEvalSpace().getCode();
         costefficient = review.getEvalCostefficient().getCode();
         staff = review.getEvalStaff().getCode();

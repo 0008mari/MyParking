@@ -48,7 +48,7 @@ public class ReviewController {
     }
 
     @GetMapping
-    public ResponseEntity<CustomResponse> allReviewsByParkingCodeOrUserId(@RequestParam(required = false) String parkingCode,
+    public ResponseEntity<CustomResponse> allReviewsByParkingCodeOrUserId(@RequestParam(required = false) String code,
         @RequestParam(required = false) String userId) {
 
         String getParkingCode = null;
@@ -56,18 +56,18 @@ public class ReviewController {
         HashMap<String, Object> map = new HashMap<>();
         String message = null;
 
-        if(!StringUtil.controllerParamIsBlank(parkingCode) && StringUtil.controllerParamIsBlank(userId)) {
+        if(!StringUtil.controllerParamIsBlank(code) && StringUtil.controllerParamIsBlank(userId)) {
             try {
-                getParkingCode = parkingCode;
+                getParkingCode = code;
             } catch (NumberFormatException e) {
-                throw new CustomException(HttpStatus.BAD_REQUEST, "잘못된 주차장 ID 입니다. 리뷰목록 조회에 실패했습니다.");
+                throw new CustomException(HttpStatus.BAD_REQUEST, "잘못된 주차장 Code 입니다. 리뷰목록 조회에 실패했습니다.");
             }
             message = "주차장ID를 가진 주차장에 작성된 리뷰 목록 조회 성공";
             map.put("reviewList", reviewService.getReviewsByParkingCode(getParkingCode));
         }
-        else if(StringUtil.controllerParamIsBlank(parkingCode) && !StringUtil.controllerParamIsBlank(userId)) {
+        else if(StringUtil.controllerParamIsBlank(code) && !StringUtil.controllerParamIsBlank(userId)) {
             try {
-                getParkingCode = parkingCode;
+                getParkingCode = code;
             } catch (NumberFormatException e) {
                 throw new CustomException(HttpStatus.BAD_REQUEST,
                     "잘못된 사용자 ID 입니다. 리뷰목록 조회에 실패했습니다.");

@@ -24,10 +24,10 @@ public class ParkingController {
     Logger logger = LoggerFactory.getLogger(ParkingController.class);
 
     @Operation(summary = "주차장 코드로 주차장 반환")
-    @GetMapping("/{parkingCode}")
-    public ResponseEntity<CustomResponse> getParkingById(@PathVariable String parkingCode) {
+    @GetMapping("/{code}")
+    public ResponseEntity<CustomResponse> getParkingByCode(@PathVariable String code) {
         return CustomResponse.CommonResponse(HttpStatus.OK, true,
-            "주차장 ID로 주차장 조회 성공", parkingService.getParkingByCode(parkingCode));
+            "주차장 ID로 주차장 조회 성공", parkingService.getParkingByCode(code));
     }
 
     @Operation(summary = "입력한 동네의 주차장 출력")

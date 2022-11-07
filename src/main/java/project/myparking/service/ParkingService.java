@@ -47,9 +47,9 @@ public class ParkingService {
     }
 
     @Transactional(readOnly = true)
-    public ParkingShortDto getParkingByCode(String parkingCode) {
-        Parking parking = parkingRepository.findByCode(parkingCode).orElseThrow(()-> new NoDataException());
-        return new ParkingShortDto(parking.getName(), parking.getStarAvg(), parking.getReviewCnt(),
+    public ParkingShortDto getParkingByCode(String code) {
+        Parking parking = parkingRepository.findByCode(code).orElseThrow(()-> new NoDataException());
+        return new ParkingShortDto(parking.getCode(), parking.getName(), parking.getStarAvg(), parking.getReviewCnt(),
             parking.getAddress(), parking.getLatitude(), parking.getLongitude());
     }
 }

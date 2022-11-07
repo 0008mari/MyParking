@@ -37,7 +37,7 @@ public class ReviewService {
     public Review addReview(@NotNull ReviewRequestDto dto) {
 
         // 엔티티 조회
-        Parking parking = parkingRepository.findByCode(dto.getParkingCode())
+        Parking parking = parkingRepository.findByCode(dto.getCode())
             .orElseThrow(() -> new NoParkingException());
         User user = userRepository.findById(dto.getUserId()).orElseThrow(() -> new NoUserException());
 
