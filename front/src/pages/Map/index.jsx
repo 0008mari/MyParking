@@ -12,13 +12,14 @@ function Map({ lat, lon, parkings }) {
       level: 5,
     };
 
+    var bounds = new window.kakao.maps.LatLngBounds();
+
     let map = new kakao.maps.Map(container, options);
     if (parkings) {
       for (var i = 0; i < parkings.length; i++) {
         displayMarker(parkings[i]);
-        var bounds = new window.kakao.maps.LatLngBounds();
         bounds.extend(
-          new kakao.maps.LatLng((parkings[i].latitude, parkings[i].longitude))
+          new kakao.maps.LatLng(parkings[i].latitude, parkings[i].longitude)
         );
       }
     }
